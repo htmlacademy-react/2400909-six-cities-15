@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Дмитрий Остапенко](https://up.htmlacademy.ru/react/15/user/2400909).
-* Наставник: [Олег Глущенко] (https://htmlacademy.ru/profile/id305355).
+* Наставник: [Олег Глущенко](https://htmlacademy.ru/profile/id305355).
 
 ---
 
