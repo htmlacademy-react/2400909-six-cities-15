@@ -1,4 +1,5 @@
 import { Route, BrowserRouter, Routes, Link } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import AppRoute from '../const';
 import { AuthorizationStatus } from '../const/const';
 import MainPage from '../../pages/main-page';
@@ -18,12 +19,13 @@ type AppProps = {
 
 function App({placeCount}: AppProps): JSX.Element {
   return (
+    <HelmetProvider>
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Root}
           element={<MainPage placeCount = {placeCount} />}
-        />
+          />
         <Route
           path={AppRoute.Favorites}
           element={
@@ -31,7 +33,7 @@ function App({placeCount}: AppProps): JSX.Element {
               <FavoritesPage />
             </PrivateRoute>
           }
-        />
+          />
         <Route
           path={AppRoute.Login}
           element={
@@ -39,11 +41,11 @@ function App({placeCount}: AppProps): JSX.Element {
               <LoginPage />
             </PrivateRoute>
           }
-        />
+          />
         <Route
           path={AppRoute.Offer}
           element={<OfferPage />}
-        />
+          />
         <Route
           path="*"
           element={
@@ -56,9 +58,10 @@ function App({placeCount}: AppProps): JSX.Element {
               <Link to="/">Go to main page</Link>
             </Fragment>
           }
-        />
+          />
       </Routes>
     </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
