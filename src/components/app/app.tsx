@@ -11,6 +11,7 @@ import OfferPage from '../../pages/offer-page';
 import OfferNotLoggedPage from '../../pages/offer-not-logged-page';
 import { Fragment } from 'react';
 import PrivateRoute from '../private-route/private-route';
+import ScrollToTop from './scroll-to-top';
 
 
 type AppProps = {
@@ -21,6 +22,7 @@ function App({placeCount}: AppProps): JSX.Element {
   return (
     <HelmetProvider>
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         <Route
           path={AppRoute.Root}
