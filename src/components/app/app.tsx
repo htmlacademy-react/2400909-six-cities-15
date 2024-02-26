@@ -10,9 +10,9 @@ import LoginPage from '../../pages/login-page';
 import OfferPage from '../../pages/offer-page';
 // import OfferNotLoggedPage from '../../pages/offer-not-logged-page';
 import PrivateRoute from '../private-route/private-route';
-import ScrollToTop from './scroll-to-top';
+import ScrollToTop from '../scroll-to-top';
 import NotFoundPage from '../not-found-page';
-import Layout from './layout/layout';
+import Layout from '../layout/layout';
 
 
 type AppProps = {
