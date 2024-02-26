@@ -1,4 +1,4 @@
-import { Route, BrowserRouter, Routes, Link } from 'react-router-dom';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import AppRoute from '../const';
 import { AuthorizationStatus } from '../const/const';
@@ -12,6 +12,7 @@ import OfferPage from '../../pages/offer-page';
 import PrivateRoute from '../private-route/private-route';
 import ScrollToTop from './scroll-to-top';
 import NotFoundPage from '../not-found-page';
+import Layout from './layout/layout';
 
 
 type AppProps = {
@@ -26,23 +27,23 @@ function App({placeCount}: AppProps): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Root}
+          element={<Layout />}
+          />
+        <Route
+          index
           element={<MainPage placeCount = {placeCount} />}
           />
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
               <FavoritesPage />
             </PrivateRoute>
           }
           />
         <Route
           path={AppRoute.Login}
-          element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <LoginPage />
-            </PrivateRoute>
-          }
+          element={<LoginPage />}
           />
         <Route
           path={AppRoute.Offer}
