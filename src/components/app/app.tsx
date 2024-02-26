@@ -3,15 +3,15 @@ import { HelmetProvider } from 'react-helmet-async';
 import AppRoute from '../const';
 import { AuthorizationStatus } from '../const/const';
 import MainPage from '../../pages/main-page';
-import FavoritesEmptyPage from '../../pages/favorites-empty-page';
+//import FavoritesEmptyPage from '../../pages/favorites-empty-page';
 import FavoritesPage from '../../pages/favorites-page';
 import LoginPage from '../../pages/login-page';
-import MainEmptyPage from '../../pages/main-empty-page';
+// import MainEmptyPage from '../../pages/main-empty-page';
 import OfferPage from '../../pages/offer-page';
-import OfferNotLoggedPage from '../../pages/offer-not-logged-page';
-import { Fragment } from 'react';
+// import OfferNotLoggedPage from '../../pages/offer-not-logged-page';
 import PrivateRoute from '../private-route/private-route';
 import ScrollToTop from './scroll-to-top';
+import NotFoundPage from '../not-found-page';
 
 
 type AppProps = {
@@ -39,7 +39,7 @@ function App({placeCount}: AppProps): JSX.Element {
         <Route
           path={AppRoute.Login}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
               <LoginPage />
             </PrivateRoute>
           }
@@ -50,16 +50,7 @@ function App({placeCount}: AppProps): JSX.Element {
           />
         <Route
           path="*"
-          element={
-            <Fragment>
-              <h1>
-                404.
-                <br />
-                <small>Page is not found</small>
-              </h1>
-              <Link to="/">Go to main page</Link>
-            </Fragment>
-          }
+          element={<NotFoundPage />}
           />
       </Routes>
     </BrowserRouter>
