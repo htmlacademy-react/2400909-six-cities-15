@@ -11,7 +11,7 @@ function NotFoundPage(): JSX.Element {
       </h1>
       <Link to="/">Go to main page</Link>
     </Fragment>
-  )
+  );
 }
 
 export default NotFoundPage;
