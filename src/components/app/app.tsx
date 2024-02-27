@@ -25,43 +25,43 @@ function App({placeCount}: AppProps): JSX.Element {
 
   return (
     <HelmetProvider>
-    <BrowserRouter>
-    <ScrollToTop />
-      <Routes>
-        <Route
-          path={AppRoute.Root}
-          element={<Layout />}
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route
+            path={AppRoute.Root}
+            element={<Layout />}
           />
-        <Route
-          index
-          element={<MainPage placeCount = {placeCount} />}
+          <Route
+            index
+             element={<MainPage placeCount = {placeCount} />}
           />
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute authorizationStatus={authorizationStatus}>
-              <FavoritesPage />
-            </PrivateRoute>
-          }
+          <Route
+            path={AppRoute.Favorites}
+            element={
+              <PrivateRoute authorizationStatus={authorizationStatus}>
+                <FavoritesPage />
+              </PrivateRoute>
+            }
           />
-        <Route
-          path={AppRoute.Login}
-          element={(
-            <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
-              <LoginPage />
-            </PrivateRoute>
-          )}
+          <Route
+            path={AppRoute.Login}
+            element={(
+              <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
+                <LoginPage />
+              </PrivateRoute>
+            )}
           />
-        <Route
-          path={AppRoute.Offer}
-          element={<OfferPage />}
+          <Route
+            path={AppRoute.Offer}
+            element={<OfferPage />}
           />
-        <Route
-          path="*"
-          element={<NotFoundPage />}
+          <Route
+            path="*"
+            element={<NotFoundPage />}
           />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
     </HelmetProvider>
   );
 }
