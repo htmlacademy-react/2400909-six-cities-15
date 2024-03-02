@@ -20,8 +20,8 @@ type AppProps = {
   offers: Offer[];
   favorites: Offer[];
   cities: City[];
-  extendedOffers: ExtendedOffer;
-  comments: Comment;
+  extendedOffers: ExtendedOffer[];
+  comments: Comment[];
 }
 
 function App({placeCount, offers, favorites, cities, extendedOffers, comments}: AppProps): JSX.Element {
@@ -38,13 +38,22 @@ function App({placeCount, offers, favorites, cities, extendedOffers, comments}: 
           />
           <Route
             index
-            element={<MainPage placeCount = {placeCount} />}
+            element={
+              <MainPage
+                placeCount = {placeCount}
+                offers = {offers}
+                cities = {cities}
+                />
+            }
           />
           <Route
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={authorizationStatus}>
-                <FavoritesPage />
+                <FavoritesPage
+                  cities = {cities}
+                  favorites = {favorites}
+                />
               </PrivateRoute>
             }
           />
@@ -58,7 +67,12 @@ function App({placeCount, offers, favorites, cities, extendedOffers, comments}: 
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage />}
+            element={
+              <OfferPage
+                extendedOffers = {extendedOffers}
+                comments = {comments}
+              />
+            }
           />
           <Route
             path="*"
