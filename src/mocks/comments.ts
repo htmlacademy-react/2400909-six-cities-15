@@ -1,6 +1,6 @@
 import { Comment } from '../types/comment';
 
-const AVATAR_URL = process.env.REACT_APP_API_GENERATE_AVATAR_SERVICE;
+export const AVATAR_URL = process.env.REACT_APP_API_GENERATE_AVATAR_SERVICE;
 
 export const comments: Comment[] = [
   {
