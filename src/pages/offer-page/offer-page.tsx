@@ -2,6 +2,7 @@ import { getAuthorizationStatus } from '../../authorizationStatus';
 import { AuthorizationStatus } from '../../components/const/const';
 import { ExtendedOffer } from '../../types/extended-offer';
 import { Comment } from '../../types/comment';
+import ReviewComponent from '../../components/review-component';
 
 type Props = {
   offer: ExtendedOffer;
@@ -11,7 +12,7 @@ type Props = {
 function OfferPage({offer, comments}: Props): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
   const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults} = offer;
-  const {user, comment, rating} = comments as Comment;
+  const {user, comment} = comments;
   const ratingStatus = rating / 5 * 100;
 
   return (
@@ -23,8 +24,8 @@ function OfferPage({offer, comments}: Props): JSX.Element {
               <div className="offer__image-wrapper">
                 <img className="offer__image" src={image} alt="Photo studio" />
               </div>
-              ))
-            }
+            )
+            )}
           </div>
         </div>
         <div className="offer__container container">
@@ -68,9 +69,9 @@ function OfferPage({offer, comments}: Props): JSX.Element {
             <div className="offer__inside">
               <h2 className="offer__inside-title">What&apos;s inside</h2>
               <ul className="offer__inside-list">
-                {goods.map((goods) => (
+                {goods.map((good) => (
                   <li className="offer__inside-item">
-                    {goods}
+                    {good}
                   </li>
                 ))}
               </ul>
@@ -123,54 +124,11 @@ function OfferPage({offer, comments}: Props): JSX.Element {
                   </div>
                 </li>
               </ul>
+
               {authorizationStatus === AuthorizationStatus.Auth ? (
-                <form className="reviews__form form" action="#" method="post">
-                  <label className="reviews__label form__label" htmlFor="review">Your review</label>
-                  <div className="reviews__rating-form form__rating">
-                    <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
-                    <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" />
-                    <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" />
-                    <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" />
-                    <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-
-                    <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" />
-                    <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-                      <svg className="form__star-image" width="37" height="33">
-                        <use xlinkHref="#icon-star"></use>
-                      </svg>
-                    </label>
-                  </div>
-                  <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
-                  <div className="reviews__button-wrapper">
-                    <p className="reviews__help">
-                      To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
-                    </p>
-                    <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
-                  </div>
-                </form>
+                <ReviewComponent />
               ) : null }
+
             </section>
           </div>
         </div>

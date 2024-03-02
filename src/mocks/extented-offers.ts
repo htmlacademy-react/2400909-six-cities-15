@@ -39,5 +39,5 @@ export const extentedOffers: ExtendedOffer[] = [
       'https://15.design.htmlacademy.pro/static/hotel/5.jpg'
     ],
     maxAdults: 4
-    }
+  }
 ];

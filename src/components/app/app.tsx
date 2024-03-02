@@ -43,7 +43,7 @@ function App({placeCount, offers, favorites, cities, extendedOffers, comments}: 
                 placeCount = {placeCount}
                 offers = {offers}
                 cities = {cities}
-                />
+              />
             }
           />
           <Route
