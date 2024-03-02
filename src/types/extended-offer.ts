@@ -6,7 +6,7 @@ type Host = {
   isPro: boolean;
 }
 
-export type Goods =
+type Goods =
   | 'Wi-Fi'
   | 'Washing machine'
   | 'Towels'
