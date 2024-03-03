@@ -1,11 +1,11 @@
-import { useState, ChangeEvent } from 'react';
-// import { Comment } from '../../types/comment';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { Comment } from '../../types/comment';
 
-// type Props = {
-//   comment: Comment;
-// }
+type Props = {
+  comment: Comment;
+}
 
-export default function ReviewComponent() {
+export default function ReviewComponent({comment}: Props) {
   const [formData, setFormData] = useState({});
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = evt.target;
@@ -13,7 +13,14 @@ export default function ReviewComponent() {
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={(evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault(comment, ...formData);
+      }}
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />

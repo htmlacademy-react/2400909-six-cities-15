@@ -1,49 +1,21 @@
 import OfferCardComponent from '../../components/offer-card-component';
+import Locations from './locations';
+import { ExtendedOffer } from '../../types/extended-offer';
+import { City } from '../../types/city';
 
 type MainPageProps = {
   placeCount: number;
+  offer: ExtendedOffer[];
+  cities: City[];
 }
 
-function MainPage({placeCount}: MainPageProps): JSX.Element {
+function MainPage({placeCount, offer, cities}: MainPageProps): JSX.Element {
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
-      <div className="tabs">
-        <section className="locations container">
-          <ul className="locations__list tabs__list">
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Paris</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Cologne</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Brussels</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active">
-                <span>Amsterdam</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Hamburg</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Dusseldorf</span>
-              </a>
-            </li>
-          </ul>
-        </section>
-      </div>
+
+        <Locations cities={cities}/>
+
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">
@@ -65,11 +37,9 @@ function MainPage({placeCount}: MainPageProps): JSX.Element {
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              <OfferCardComponent />
-              <OfferCardComponent />
-              <OfferCardComponent />
-              <OfferCardComponent />
-              <OfferCardComponent />
+
+              {offer.map((offer) => <OfferCardComponent offer={offer} key={offer.id}/>)}
+
             </div>
           </section>
           <div className="cities__right-section">
