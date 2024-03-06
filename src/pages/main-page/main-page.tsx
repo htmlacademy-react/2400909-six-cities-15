@@ -1,15 +1,15 @@
 import OfferCardComponent from '../../components/offer-card-component';
 import Locations from './locations';
-import { ExtendedOffer } from '../../types/extended-offer';
-import { City } from '../../types/city';
+import { CityName } from '../../types/city-name';
+import { Offer } from '../../types/offer';
 
 type MainPageProps = {
   placeCount: number;
-  offer: ExtendedOffer[];
-  cities: City[];
+  offers: Offer[];
+  cities: CityName[];
 }
 
-function MainPage({placeCount, offer, cities}: MainPageProps): JSX.Element {
+function MainPage({placeCount, offers, cities}: MainPageProps): JSX.Element {
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -38,7 +38,7 @@ function MainPage({placeCount, offer, cities}: MainPageProps): JSX.Element {
             </form>
             <div className="cities__places-list places__list tabs__content">
 
-              {offer.map((offer) => <OfferCardComponent offer={offer} key={offer.id}/>)}
+              {offers.map((offer) => <OfferCardComponent offer={offer} key={offer.id}/>)}
 
             </div>
           </section>

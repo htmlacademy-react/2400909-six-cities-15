@@ -1,8 +1,8 @@
-import { City } from '../../types/offer';
+import { CityName } from '../../types/city-name';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  cities: City[];
+  cities: CityName[];
 }
 
 export default function Locations({cities}: Props): JSX.Element {

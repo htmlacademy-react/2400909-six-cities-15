@@ -11,7 +11,7 @@ import NotFoundPage from '../not-found-page';
 import Layout from '../layout/layout';
 import { getAuthorizationStatus } from '../../authorizationStatus';
 import { Offer } from '../../types/offer';
-import { City } from '../../types/city';
+import { CityName } from '../../types/city-name';
 import { Comment } from '../../types/comment';
 import { ExtendedOffer } from '../../types/extended-offer';
 
@@ -19,7 +19,7 @@ type AppProps = {
   placeCount: number;
   offers: Offer[];
   favorites: Offer[];
-  cities: City[];
+  cities: CityName[];
   extendedOffers: ExtendedOffer[];
   comments: Comment[];
 }
@@ -69,7 +69,7 @@ function App({placeCount, offers, favorites, cities, extendedOffers, comments}: 
             path={AppRoute.Offer}
             element={
               <OfferPage
-                extendedOffers = {extendedOffers}
+                extendedOffer = {extendedOffers[0]}
                 comments = {comments}
               />
             }

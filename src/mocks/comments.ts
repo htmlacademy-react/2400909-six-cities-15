@@ -1,6 +1,6 @@
 import { Comment } from '../types/comment';
 
-export const AVATAR_URL = process.env.REACT_APP_API_GENERATE_AVATAR_SERVICE;
+//export const AVATAR_URL = process.env.REACT_APP_API_GENERATE_AVATAR_SERVICE;
 
 export const comments: Comment[] = [
   {
@@ -8,7 +8,7 @@ export const comments: Comment[] = [
     date: '2019-05-08T14:13:56.569Z',
     user: {
       name: 'Oliver Conner',
-      avatarUrl: `${AVATAR_URL}?rnd=${Math.random()}`,
+      avatarUrl: './img/avatar-angelina.jpg',
       isPro: false
     },
     comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',

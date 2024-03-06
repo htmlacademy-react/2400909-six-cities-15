@@ -1,5 +1,5 @@
 import { ExtendedOffer } from '../types/extended-offer';
-import { AVATAR_URL } from './comments';
+//import { AVATAR_URL } from './comments';
 
 export const extentedOffers: ExtendedOffer[] = [
   {
@@ -31,7 +31,7 @@ export const extentedOffers: ExtendedOffer[] = [
     ],
     host: {
       name: 'Oliver Conner',
-      avatarUrl: `${AVATAR_URL}?rnd=${Math.random()}`,
+      avatarUrl: './img/avatar-max.jpg',
       isPro: false
     },
     images: [

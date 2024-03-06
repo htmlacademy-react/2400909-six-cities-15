@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { ExtendedOffer } from '../../types/extended-offer';
 import { Link } from 'react-router-dom';
+import { Offer } from '../../types/offer';
 
 type Props = {
-  offer: ExtendedOffer;
+  offer: Offer[];
 }
 
 function OfferCardComponent({offer}: Props): JSX.Element {

@@ -5,6 +5,7 @@ import { cities } from './mocks/cities';
 import { favorites } from './mocks/favorites';
 import { offers } from './mocks/offers';
 import { comments } from './mocks/comments';
+import { extentedOffers } from './mocks/extented-offers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,6 +21,7 @@ root.render(
       favorites = {favorites}
       cities = {cities}
       comments = {comments}
+      extendedOffers = {extentedOffers}
     />
   </React.StrictMode>
 );

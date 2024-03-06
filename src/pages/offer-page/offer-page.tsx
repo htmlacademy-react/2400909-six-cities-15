@@ -1,22 +1,24 @@
 import { getAuthorizationStatus } from '../../authorizationStatus';
-import { AuthorizationStatus } from '../../components/const/const';
+import { AppRoute, AuthorizationStatus } from '../../components/const/const';
 import { ExtendedOffer } from '../../types/extended-offer';
 import { Comment } from '../../types/comment';
 import ReviewComponent from '../../components/review-component';
-import { useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-type OfferProps = {
-  extendedOffer: ExtendedOffer[];
+type Props = {
+  extendedOffer: ExtendedOffer;
   comments: Comment[];
 }
 
-function OfferPage({extendedOffer, comments}: OfferProps): JSX.Element {
+function OfferPage({extendedOffer, comments}: Props): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
-  const {id} = useParams();
-  const [offer] = extendedOffer.filter((item) => String(item.id) === String(id))
-  const (images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults) = offer;
+  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults} = extendedOffer;
   const {user, comment} = comments[0];
   const ratingStatus = rating / 5 * 100;
+
+  if (!extendedOffer) {
+    return <Navigate to={AppRoute.NotFoundPage} replace/>
+  }
 
   return (
     <main className="page__main page__main--offer">
