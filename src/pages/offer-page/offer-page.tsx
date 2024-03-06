@@ -3,16 +3,19 @@ import { AuthorizationStatus } from '../../components/const/const';
 import { ExtendedOffer } from '../../types/extended-offer';
 import { Comment } from '../../types/comment';
 import ReviewComponent from '../../components/review-component';
+import { useParams } from 'react-router-dom';
 
-type Props = {
-  offer: ExtendedOffer;
-  comments: Comment;
+type OfferProps = {
+  extendedOffer: ExtendedOffer[];
+  comments: Comment[];
 }
 
-function OfferPage({offer, comments}: Props): JSX.Element {
+function OfferPage({extendedOffer, comments}: OfferProps): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
-  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults} = offer;
-  const {user, comment} = comments;
+  const {id} = useParams();
+  const [offer] = extendedOffer.filter((item) => String(item.id) === String(id))
+  const (images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults) = offer;
+  const {user, comment} = comments[0];
   const ratingStatus = rating / 5 * 100;
 
   return (
@@ -21,7 +24,7 @@ function OfferPage({offer, comments}: Props): JSX.Element {
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
             {images.map((image) => (
-              <div className="offer__image-wrapper">
+              <div key={image} className="offer__image-wrapper">
                 <img className="offer__image" src={image} alt="Photo studio" />
               </div>
             )
@@ -70,7 +73,7 @@ function OfferPage({offer, comments}: Props): JSX.Element {
               <h2 className="offer__inside-title">What&apos;s inside</h2>
               <ul className="offer__inside-list">
                 {goods.map((good) => (
-                  <li className="offer__inside-item">
+                  <li key={good} className="offer__inside-item">
                     {good}
                   </li>
                 ))}
