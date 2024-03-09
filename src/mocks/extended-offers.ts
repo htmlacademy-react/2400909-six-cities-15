@@ -1,7 +1,6 @@
 import { ExtendedOffer } from '../types/extended-offer';
-//import { AVATAR_URL } from './comments';
 
-export const extentedOffers: ExtendedOffer[] = [
+export const extendedOffers: ExtendedOffer[] = [
   {
     id: '6af6f711-c28d-4121-82cd-e0b462a27f00',
     title: 'Beautiful & luxurious studio at great location',
@@ -41,3 +40,6 @@ export const extentedOffers: ExtendedOffer[] = [
     maxAdults: 4
   }
 ];
+
+export const getOfferById = (offerId?: string) => extendedOffers.find((offer) => offer.id === offerId);
+

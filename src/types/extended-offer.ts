@@ -30,7 +30,7 @@ export type ExtendedOffer = {
   isPremium: boolean;
   rating: number;
   previewImage: string;
-  description: string;
+  description: string[];
   bedrooms: number;
   goods: Goods[];
   host: Host;

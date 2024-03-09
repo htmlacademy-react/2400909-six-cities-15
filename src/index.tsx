@@ -5,7 +5,7 @@ import { cities } from './mocks/cities';
 import { favorites } from './mocks/favorites';
 import { offers } from './mocks/offers';
 import { comments } from './mocks/comments';
-import { extentedOffers } from './mocks/extented-offers';
+import { extentedOffers } from './mocks/extended-offers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

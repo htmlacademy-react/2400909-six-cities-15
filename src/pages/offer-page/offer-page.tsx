@@ -1,22 +1,23 @@
 import { getAuthorizationStatus } from '../../authorizationStatus';
 import { AppRoute, AuthorizationStatus } from '../../components/const/const';
-import { ExtendedOffer } from '../../types/extended-offer';
+import { getOfferById } from '../../mocks/extended-offers';
 import { Comment } from '../../types/comment';
 import ReviewComponent from '../../components/review-component';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 type Props = {
-  extendedOffer: ExtendedOffer;
   comments: Comment[];
 }
 
-function OfferPage({extendedOffer, comments}: Props): JSX.Element {
+function OfferPage({comments}: Props): JSX.Element {
+  const {id: offerId} = useParams();
+  const currentOffer = getOfferById(offerId);
   const authorizationStatus = getAuthorizationStatus();
-  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults} = extendedOffer;
+  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults} = currentOffer;
   const {user, comment} = comments[0];
-  const ratingStatus = rating / 5 * 100;
+  const ratingStatus = rating * 20;
 
-  if (!extendedOffer) {
+  if (!currentOffer) {
     return <Navigate to={AppRoute.NotFoundPage} replace/>
   }
 
@@ -25,11 +26,10 @@ function OfferPage({extendedOffer, comments}: Props): JSX.Element {
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            {images.map((image) => (
+            {currentOffer.images.map((image) => (
               <div key={image} className="offer__image-wrapper">
                 <img className="offer__image" src={image} alt="Photo studio" />
-              </div>
-            )
+              </div>)
             )}
           </div>
         </div>
@@ -51,7 +51,7 @@ function OfferPage({extendedOffer, comments}: Props): JSX.Element {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{width: ratingStatus}}></span>
+                <span style={{width: `${ratingStatus}%`}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
               <span className="offer__rating-value rating__value">{rating}</span>
@@ -61,10 +61,10 @@ function OfferPage({extendedOffer, comments}: Props): JSX.Element {
                 {type}
               </li>
               <li className="offer__feature offer__feature--bedrooms">
-                {bedrooms} Bedrooms
+                {bedrooms} {(bedrooms > 1) ? 'Bedrooms': 'Bedroom'}
               </li>
               <li className="offer__feature offer__feature--adults">
-                Max {maxAdults} adults
+                Max {maxAdults} {(maxAdults > 1) ? 'adults': 'adult'}
               </li>
             </ul>
             <div className="offer__price">
@@ -74,7 +74,7 @@ function OfferPage({extendedOffer, comments}: Props): JSX.Element {
             <div className="offer__inside">
               <h2 className="offer__inside-title">What&apos;s inside</h2>
               <ul className="offer__inside-list">
-                {goods.map((good) => (
+                {currentOffer.goods.map((good) => (
                   <li key={good} className="offer__inside-item">
                     {good}
                   </li>
@@ -90,17 +90,21 @@ function OfferPage({extendedOffer, comments}: Props): JSX.Element {
                 <span className="offer__user-name">
                   {host.name}
                 </span>
-                <span className="offer__user-status">
-                  {host.isPro}
-                </span>
+                {
+                  (host.isPro) ? (
+                    <span className="offer__user-status">
+                      Pro
+                    </span>) : null
+                }
               </div>
               <div className="offer__description">
-                <p className="offer__text">
-                  A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                </p>
-                <p className="offer__text">
-                  An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                </p>
+                {
+                  currentOffer.description.map((description) =>
+                    (<p className="offer__text" key={description}>
+                      {description}
+                    </p>)
+                  )
+                }
               </div>
             </div>
             <section className="offer__reviews reviews">
@@ -118,7 +122,7 @@ function OfferPage({extendedOffer, comments}: Props): JSX.Element {
                   <div className="reviews__info">
                     <div className="reviews__rating rating">
                       <div className="reviews__stars rating__stars">
-                        <span style={{width: '80%'}}></span>
+                        <span style={{width: `${ratingStatus}%`}}></span>
                         <span className="visually-hidden">{rating}</span>
                       </div>
                     </div>

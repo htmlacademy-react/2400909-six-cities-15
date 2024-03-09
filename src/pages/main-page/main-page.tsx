@@ -2,6 +2,7 @@ import OfferCardComponent from '../../components/offer-card-component';
 import Locations from './locations';
 import { CityName } from '../../types/city-name';
 import { Offer } from '../../types/offer';
+import { useState } from 'react';
 
 type MainPageProps = {
   placeCount: number;
@@ -10,6 +11,8 @@ type MainPageProps = {
 }
 
 function MainPage({placeCount, offers, cities}: MainPageProps): JSX.Element {
+  const [activeCardId, setActiveCardId] = useState();
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -38,7 +41,7 @@ function MainPage({placeCount, offers, cities}: MainPageProps): JSX.Element {
             </form>
             <div className="cities__places-list places__list tabs__content">
 
-              {offers.map((offer) => <OfferCardComponent offer={offer} key={offer.id}/>)}
+              {offers.map((offer) => <OfferCardComponent offer={offer} key={offer.id} setActiveCardId={setActiveCardId}/>)}
 
             </div>
           </section>
