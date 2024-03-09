@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import AppRoute from '../../components/const';
 
-type CitiesItemsProps = {
+type TCitiesItemsProps = {
   favorite: Offer;
 }
 
-export default function CitiesItems({favorite}: CitiesItemsProps): JSX.Element {
+export default function CitiesItems({favorite}: TCitiesItemsProps): JSX.Element {
   const {isPremium, type, previewImage, price, title} = favorite;
 
   return (
