@@ -9,7 +9,7 @@ const rating = [
   {value: 3, label: 'not bad'},
   {value: 2, label: 'badly'},
   {value: 1, label: 'terribly'},
-]
+];
 
 export const ReviewComponent: FC = () => {
   const [review, setReview] = useState({rating: 0, review: ''});
@@ -34,23 +34,23 @@ export const ReviewComponent: FC = () => {
       <div className="reviews__rating-form form__rating">
         {rating.map(({value, label}) => (
           <Fragment key={value}>
-          <input
-            className="form__rating-input visually-hidden"
-            name="rating"
-            value={value}
-            id={`${value}-stars`}
-            type="radio"
-            onChange={handleChange}
-          />
-          <label
-            htmlFor={`${value}-stars`}
-            className="reviews__rating-label form__rating-label"
-            title={label}
-          >
-            <svg className="form__star-image" width="37" height="33">
-              <use xlinkHref="#icon-star"></use>
-            </svg>
-          </label>
+            <input
+              className="form__rating-input visually-hidden"
+              name="rating"
+              value={value}
+              id={`${value}-stars`}
+              type="radio"
+              onChange={handleChange}
+            />
+            <label
+              htmlFor={`${value}-stars`}
+              className="reviews__rating-label form__rating-label"
+              title={label}
+            >
+              <svg className="form__star-image" width="37" height="33">
+                <use xlinkHref="#icon-star"></use>
+              </svg>
+            </label>
           </Fragment>
         ))}
       </div>
@@ -81,4 +81,4 @@ export const ReviewComponent: FC = () => {
       </div>
     </form>
   );
-}
+};

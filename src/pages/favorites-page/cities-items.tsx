@@ -26,7 +26,8 @@ export default function CitiesItems({favorite}: TCitiesItemsProps): JSX.Element 
             src={previewImage}
             width="150"
             height="110"
-            alt="Place image" />
+            alt="Place image"
+          />
         </Link>
       </div>
 

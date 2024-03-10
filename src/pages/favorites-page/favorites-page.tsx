@@ -17,11 +17,7 @@ function FavoritesPage({favorites, cities}: TFavoriteProps): JSX.Element {
             <ul className="favorites__list">
               {
                 cities.map((city) =>
-                  <FavoritesCities
-                    favorites={favorites}
-                    city={cities}
-                    key={city}
-                  />)
+                  (<FavoritesCities favorites={favorites} city={cities} key={city}/>))
               }
             </ul>
           </section>

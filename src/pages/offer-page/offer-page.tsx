@@ -7,6 +7,7 @@ import { Navigate, useParams } from 'react-router-dom';
 
 type Props = {
   comments: Comment[];
+
 }
 
 function OfferPage({comments}: Props): JSX.Element {
@@ -100,9 +101,7 @@ function OfferPage({comments}: Props): JSX.Element {
               <div className="offer__description">
                 {
                   currentOffer.description.map((description) =>
-                    (<p className="offer__text" key={description}>
-                      {description}
-                    </p>)
+                    (<p className="offer__text" key={description}>{description}</p>)
                   )
                 }
               </div>
