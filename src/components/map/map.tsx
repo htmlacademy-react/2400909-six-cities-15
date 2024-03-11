@@ -7,6 +7,7 @@ import { Offer, City } from '../../types/offer';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../const/const';
 
 type TMapProps = {
+  className: string;
   city: City;
   offers: Offer[];
   activeOfferId?: string | null;
@@ -24,7 +25,7 @@ const activeMarkerIcon = leaflet.icon({
     iconAnchor: [20, 40],
 })
 
-export const Map: FC<TMapProps> = ({city, offers, activeOfferId}: TMapProps) => {
+export const Map: FC<TMapProps> = ({className, city, offers, activeOfferId}: TMapProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const map = useMap({location: city.location, containerRef: mapContainerRef});
   const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());
@@ -52,5 +53,5 @@ export const Map: FC<TMapProps> = ({city, offers, activeOfferId}: TMapProps) => 
     }
   }, [activeOfferId, map, offers]);
 
-  return <section className="cities__map map" ref={mapContainerRef} />;
+  return <section className={`map ${className}`} ref={mapContainerRef} />;
 }
