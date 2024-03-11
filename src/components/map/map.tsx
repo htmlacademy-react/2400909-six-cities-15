@@ -1,5 +1,5 @@
-import { useMap } from "../hooks/use-map";
-import { useEffect, useRef, FC } from "react";
+import { useMap } from '../hooks/use-map';
+import { useEffect, useRef, FC } from 'react';
 import leaflet, { LayerGroup } from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
@@ -15,15 +15,15 @@ type TMapProps = {
 
 const defaultMarkerIcon = leaflet.icon({
   iconUrl: URL_MARKER_DEFAULT,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-})
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
 const activeMarkerIcon = leaflet.icon({
   iconUrl: URL_MARKER_ACTIVE,
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-})
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
 export const Map: FC<TMapProps> = ({className, city, offers, activeOfferId}: TMapProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -54,4 +54,4 @@ export const Map: FC<TMapProps> = ({className, city, offers, activeOfferId}: TMa
   }, [activeOfferId, map, offers]);
 
   return <section className={`map ${className}`} ref={mapContainerRef} />;
-}
+};

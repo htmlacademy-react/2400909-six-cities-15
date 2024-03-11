@@ -24,7 +24,7 @@ const MAX_NEAR_OFFERS = 3;
 export const getNearOffers = (offer: ExtendedOffer) => {
   const nearOffers: ExtendedOffer[] = [];
 
-  for (let i=0; i < extendedOffers.length; i++) {
+  for (let i = 0; i < extendedOffers.length; i++) {
     if (extendedOffers[i].id !== offer.id && extendedOffers[i].city.name === offer.city.name) {
       nearOffers.push(extendedOffers[i]);
     }
@@ -35,5 +35,5 @@ export const getNearOffers = (offer: ExtendedOffer) => {
   }
 
   return nearOffers;
-}
+};
 

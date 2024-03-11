@@ -4,9 +4,9 @@ import { RefObject } from 'react';
 
 type TUseMapProps = {
   location: {
-    latitude: number,
-    longitude: number,
-    zoom: number,
+    latitude: number;
+    longitude: number;
+    zoom: number;
   };
   containerRef: RefObject<HTMLElement | null>;
 }
@@ -36,10 +36,10 @@ export const useMap = ({location, containerRef}: TUseMapProps): Map | null => {
         })
         .addTo(instance);
 
-        setMap(instance);
-        isRenderedRef.current = true;
-      }
-    }, [containerRef, location]);
+      setMap(instance);
+      isRenderedRef.current = true;
+    }
+  }, [containerRef, location]);
 
   return map;
 };

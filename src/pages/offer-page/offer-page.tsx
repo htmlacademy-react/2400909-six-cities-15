@@ -28,7 +28,7 @@ function OfferPage({comments}: Props): JSX.Element {
   const nearOffersPlusCurrent = [offerPage, ...nearOffers];
 
   if (!currentOffer) {
-    return <Navigate to={AppRoute.NotFoundPage} replace/>
+    return <Navigate to={AppRoute.NotFoundPage} replace/>;
   }
 
   return (
@@ -71,10 +71,10 @@ function OfferPage({comments}: Props): JSX.Element {
                 {type}
               </li>
               <li className="offer__feature offer__feature--bedrooms">
-                {bedrooms} {(bedrooms > 1) ? 'Bedrooms': 'Bedroom'}
+                {bedrooms} {(bedrooms > 1) ? 'Bedrooms' : 'Bedroom'}
               </li>
               <li className="offer__feature offer__feature--adults">
-                Max {maxAdults} {(maxAdults > 1) ? 'adults': 'adult'}
+                Max {maxAdults} {(maxAdults > 1) ? 'adults' : 'adult'}
               </li>
             </ul>
             <div className="offer__price">
@@ -150,10 +150,10 @@ function OfferPage({comments}: Props): JSX.Element {
           </div>
         </div>
         <Map
-         className="offer__map"
-         offers={nearOffersPlusCurrent}
-         city={offerPage.city}
-         activeOfferId={offerPage.id}
+          className="offer__map"
+          offers={nearOffersPlusCurrent}
+          city={offerPage.city}
+          activeOfferId={offerPage.id}
         />
       </section>
       <div className="container">
