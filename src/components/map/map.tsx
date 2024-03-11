@@ -1,14 +1,13 @@
 import { useMap } from "../hooks/use-map";
 import { useEffect, useRef, FC } from "react";
-import leaflet from 'leaflet';
+import leaflet, { LayerGroup } from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
-import { Offer } from '../../types/offer';
-import { CityName } from '../../types/city-name';
+import { Offer, City } from '../../types/offer';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../const/const';
 
 type TMapProps = {
-  city: CityName;
+  city: City;
   offers: Offer[];
   activeOfferId?: string | null;
 };
@@ -28,6 +27,15 @@ const activeMarkerIcon = leaflet.icon({
 export const Map: FC<TMapProps> = ({city, offers, activeOfferId}: TMapProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const map = useMap({location: city.location, containerRef: mapContainerRef});
+  const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());
+
+  useEffect(() => {
+    if (map) {
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+      // markerLayer.current.addTo(map);
+      // markerLayer.current.clearLayers();
+    }
+  }, [city, map]);
 
   useEffect(() => {
     if (map) {
@@ -39,7 +47,7 @@ export const Map: FC<TMapProps> = ({city, offers, activeOfferId}: TMapProps) => 
           }, {
             icon: offer.id === activeOfferId ? activeMarkerIcon : defaultMarkerIcon,
           })
-          .addTo(map);
+          .addTo(markerLayer.current);
       });
     }
   }, [activeOfferId, map, offers]);
