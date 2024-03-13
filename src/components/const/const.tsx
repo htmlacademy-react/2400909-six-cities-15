@@ -19,21 +19,4 @@ export const URL_MARKER_DEFAULT = './img/pin.svg';
 
 export const URL_MARKER_ACTIVE = './img/pin-active.svg';
 
-const MAX_NEAR_OFFERS = 3;
-
-export const getNearOffers = (offer: ExtendedOffer) => {
-  const nearOffers: ExtendedOffer[] = [];
-
-  for (let i = 0; i < extendedOffers.length; i++) {
-    if (extendedOffers[i].id !== offer.id && extendedOffers[i].city.name === offer.city.name) {
-      nearOffers.push(extendedOffers[i]);
-    }
-
-    if (nearOffers.length >= MAX_NEAR_OFFERS) {
-      break;
-    }
-  }
-
-  return nearOffers;
-};
 

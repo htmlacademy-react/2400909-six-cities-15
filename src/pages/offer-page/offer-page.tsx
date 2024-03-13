@@ -6,37 +6,37 @@ import ReviewComponent from '../../components/review-component';
 import { Navigate, useParams } from 'react-router-dom';
 import { Map } from '../../components/map/map';
 import OfferCardComponent from '../../components/offer-card-component';
-import { extendedOffers } from '../../mocks/extended-offers';
-import { getNearOffers } from '../../components/const/const';
+// import { extendedOffers } from '../../mocks/extended-offers';
+import { getNearOffers } from './const';
 
 type Props = {
   comments: Comment[];
-
 }
 
 function OfferPage({comments}: Props): JSX.Element {
   const {id: offerId} = useParams();
   const currentOffer = getOfferById(offerId);
-  const foundOffer = extendedOffers.find((item) => item.id.toString() === offerId);
+  //const foundOffer = extendedOffers.find((item) => item.id.toString() === offerId);
   const authorizationStatus = getAuthorizationStatus();
-  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults} = currentOffer;
   const {user, comment} = comments[0];
-  const ratingStatus = rating * 20;
 
-  const offerPage = {...extendedOffers, ...foundOffer};
-  const nearOffers = getNearOffers(offerPage);
-  const nearOffersPlusCurrent = [offerPage, ...nearOffers];
+  //const offerPage = {...extendedOffers, ...foundOffer};
+  const nearOffers = getNearOffers(currentOffer);
 
   if (!currentOffer) {
     return <Navigate to={AppRoute.NotFoundPage} replace/>;
   }
+
+  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults, description} = currentOffer;
+  const ratingStatus = rating * 20;
+  const nearOffersPlusCurrent = [currentOffer, ...nearOffers];
 
   return (
     <main className="page__main page__main--offer">
       <section className="offer">
         <div className="offer__gallery-container container">
           <div className="offer__gallery">
-            {currentOffer.images.map((image) => (
+            {images.map((image) => (
               <div key={image} className="offer__image-wrapper">
                 <img className="offer__image" src={image} alt="Photo studio" />
               </div>)
@@ -84,7 +84,7 @@ function OfferPage({comments}: Props): JSX.Element {
             <div className="offer__inside">
               <h2 className="offer__inside-title">What&apos;s inside</h2>
               <ul className="offer__inside-list">
-                {currentOffer.goods.map((good) => (
+                {goods.map((good) => (
                   <li key={good} className="offer__inside-item">
                     {good}
                   </li>
@@ -109,7 +109,7 @@ function OfferPage({comments}: Props): JSX.Element {
               </div>
               <div className="offer__description">
                 {
-                  currentOffer.description.map((description) =>
+                  description.map((description) =>
                     (<p className="offer__text" key={description}>{description}</p>)
                   )
                 }
@@ -152,8 +152,8 @@ function OfferPage({comments}: Props): JSX.Element {
         <Map
           className="offer__map"
           offers={nearOffersPlusCurrent}
-          city={offerPage.city}
-          activeOfferId={offerPage.id}
+          //city={offerPage.city}
+          activeOfferId={currentOffer.id}
         />
       </section>
       <div className="container">

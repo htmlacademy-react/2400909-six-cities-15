@@ -5,7 +5,7 @@ import { Offer } from '../../types/offer';
 type Props = {
   offer: Offer;
   block: string;
-  setActiveCardId: (str: string) => void;
+  setActiveCardId?: (str: string) => void;
 }
 
 function OfferCardComponent({offer, block, setActiveCardId}: Props): JSX.Element {
@@ -14,14 +14,14 @@ function OfferCardComponent({offer, block, setActiveCardId}: Props): JSX.Element
   const offerPath = `/offer/${offer.id}`;
   const ratingStatus = rating / 5 * 100;
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = setActiveCardId && (() => {
     setActiveCardId(offer.id);
     //setActiveCard('place-card__bookmark-button--active');
-  };
+  });
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = setActiveCardId && (() => {
     setActiveCardId('');
-  };
+  });
 
   return (
     <article className={`${block}__card place-card`}

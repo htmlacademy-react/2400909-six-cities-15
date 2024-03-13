@@ -1,15 +1,15 @@
 import { useMap } from '../hooks/use-map';
 import { useEffect, useRef, FC } from 'react';
-import leaflet, { LayerGroup } from 'leaflet';
+import leaflet, { LayerGroup, Map as LeafletMap } from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
-import { Offer, City } from '../../types/offer';
+import { Offer } from '../../types/offer';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../const/const';
+import { ExtendedOffer } from '../../types/extended-offer';
 
 type TMapProps = {
   className: string;
-  city: City;
-  offers: Offer[];
+  offers: (Offer | ExtendedOffer)[];
   activeOfferId?: string | null;
 };
 
@@ -25,14 +25,15 @@ const activeMarkerIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-export const Map: FC<TMapProps> = ({className, city, offers, activeOfferId}: TMapProps) => {
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-  const map = useMap({location: city.location, containerRef: mapContainerRef});
+export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps) => {
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const {city} = offers[0];
+  const map: LeafletMap | null = useMap({location: city.location, containerRef: mapContainerRef});
   const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());
 
   useEffect(() => {
     if (map) {
-      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+      //map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
       // markerLayer.current.addTo(map);
       // markerLayer.current.clearLayers();
     }
@@ -50,6 +51,7 @@ export const Map: FC<TMapProps> = ({className, city, offers, activeOfferId}: TMa
           })
           .addTo(markerLayer.current);
       });
+      markerLayer.current.addTo(map);
     }
   }, [activeOfferId, map, offers]);
 
