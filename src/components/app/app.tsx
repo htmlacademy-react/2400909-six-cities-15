@@ -12,19 +12,15 @@ import Layout from '../layout/layout';
 import { getAuthorizationStatus } from '../../authorizationStatus';
 import { Offer } from '../../types/offer';
 import { Comment } from '../../types/comment';
-import { City } from '../../types/offer';
-import { CityName } from '../../types/city-name';
 
 type AppProps = {
   placeCount: number;
   offers: Offer[];
   favorites: Offer[];
-  cities: City[];
-  citiesName: CityName[];
   comments: Comment[];
 }
 
-function App({placeCount, offers, favorites, cities, citiesName, comments}: AppProps): JSX.Element {
+function App({placeCount, offers, favorites, comments}: AppProps): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
 
   return (
@@ -42,7 +38,6 @@ function App({placeCount, offers, favorites, cities, citiesName, comments}: AppP
                 <MainPage
                   placeCount = {placeCount}
                   offers = {offers}
-                  citiesName = {citiesName}
                 />
               }
             />
@@ -51,7 +46,6 @@ function App({placeCount, offers, favorites, cities, citiesName, comments}: AppP
               element={
                 <PrivateRoute authorizationStatus={authorizationStatus}>
                   <FavoritesPage
-                    cities = {cities}
                     favorites = {favorites}
                   />
                 </PrivateRoute>

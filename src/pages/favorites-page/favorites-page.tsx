@@ -1,13 +1,11 @@
 import FavoritesCities from './favorites-cities';
 import { Offer } from '../../types/offer';
-import { City } from '../../types/offer';
 
 type TFavoriteProps = {
   favorites: Offer[];
-  cities: City[];
 }
 
-function FavoritesPage({favorites, cities}: TFavoriteProps): JSX.Element {
+function FavoritesPage({favorites}: TFavoriteProps): JSX.Element {
   return (
     <div className="page">
       <main className="page__main page__main--favorites">

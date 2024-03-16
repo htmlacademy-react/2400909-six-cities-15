@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { cities } from './mocks/cities';
 import { favorites } from './mocks/favorites';
 import { offers } from './mocks/offers';
-import { extendedOffers } from './mocks/extended-offers';
 import { comments } from './mocks/comments';
 
 const root = ReactDOM.createRoot(
@@ -19,9 +17,7 @@ root.render(
       placeCount = {placeCount}
       offers = {offers}
       favorites = {favorites}
-      cities = {cities}
       comments = {comments}
-      extendedOffers = {extendedOffers}
     />
   </React.StrictMode>
 );

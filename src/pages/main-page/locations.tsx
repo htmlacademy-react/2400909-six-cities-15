@@ -1,11 +1,7 @@
-import { CityName } from '../../types/city-name';
+import { cities } from '../../mocks/cities';
 import { Link } from 'react-router-dom';
 
-type Props = {
-  cities: CityName[];
-}
-
-export default function Locations({cities}: Props): JSX.Element {
+export default function Locations(): JSX.Element {
   return (
     <div className="tabs">
       <section className="locations container">

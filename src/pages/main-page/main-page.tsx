@@ -1,16 +1,15 @@
 import OfferCardComponent from '../../components/offer-card-component';
 import Locations from './locations';
-import { CityName } from '../../types/city-name';
 import { Offer } from '../../types/offer';
 import { useState } from 'react';
+import { cities } from '../../mocks/cities';
 
 type MainPageProps = {
   placeCount: number;
   offers: Offer[];
-  cities: CityName[];
 }
 
-function MainPage({placeCount, offers, cities}: MainPageProps): JSX.Element {
+function MainPage({placeCount, offers}: MainPageProps): JSX.Element {
   const [activeCardId, setActiveCardId] = useState();
 
   return (
