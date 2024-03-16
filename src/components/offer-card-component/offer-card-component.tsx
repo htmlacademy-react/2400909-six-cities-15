@@ -4,26 +4,27 @@ import { Offer } from '../../types/offer';
 
 type Props = {
   offer: Offer;
-  setActiveCardId: (str: string) => void;
+  block: string;
+  setActiveCardId?: (str: string) => void;
 }
 
-function OfferCardComponent({offer, setActiveCardId}: Props): JSX.Element {
+function OfferCardComponent({offer, block, setActiveCardId}: Props): JSX.Element {
   //const [activeCard, setActiveCard] = useState('');
   const {isPremium, previewImage, price, rating, title, type} = offer;
   const offerPath = `/offer/${offer.id}`;
   const ratingStatus = rating / 5 * 100;
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = setActiveCardId && (() => {
     setActiveCardId(offer.id);
     //setActiveCard('place-card__bookmark-button--active');
-  };
+  });
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = setActiveCardId && (() => {
     setActiveCardId('');
-  };
+  });
 
   return (
-    <article className="cities__card place-card"
+    <article className={`${block}__card place-card`}
       onMouseEnter = {handleMouseEnter}
       onMouseLeave = {handleMouseLeave}
     >
@@ -32,7 +33,7 @@ function OfferCardComponent({offer, setActiveCardId}: Props): JSX.Element {
           <span>Premium</span>
         </div>
       ) : null }
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${block}__image-wrapper place-card__image-wrapper`} >
         <Link to={offerPath}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
         </Link>

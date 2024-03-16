@@ -22,7 +22,6 @@ export const extendedOffers: ExtendedOffer[] = [
     isFavorite: false,
     isPremium: false,
     rating: 4,
-    previewImage: 'https://15.design.htmlacademy.pro/static/hotel/3.jpg',
     description: ['A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.'],
     bedrooms: 3,
     goods: [

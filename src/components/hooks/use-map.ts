@@ -4,9 +4,9 @@ import { RefObject } from 'react';
 
 type TUseMapProps = {
   location: {
-    latitude: number,
-    longitude: number,
-    zoom: number,
+    latitude: number;
+    longitude: number;
+    zoom: number;
   };
   containerRef: RefObject<HTMLElement | null>;
 }
@@ -16,11 +16,11 @@ const TILE_LAYER_URL_PATTERN =
 const TILE_LAYER_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
-export const useMap = ({location, containerRef}: TUseMapProps): Map | null => {
+export const useMap = ({location, containerRef}: TUseMapProps): LeafletMap | null => {
   const [map, setMap] = useState<LeafletMap | null>(null);
   const isRenderedRef = useRef(false);
 
-  useEffect(() : void => {
+  useEffect(() => {
     if (containerRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(containerRef.current, {
         center: {
@@ -36,10 +36,10 @@ export const useMap = ({location, containerRef}: TUseMapProps): Map | null => {
         })
         .addTo(instance);
 
-        setMap(instance);
-        isRenderedRef.current = true;
-      }
-    }, [containerRef, location]);
+      setMap(instance);
+      isRenderedRef.current = true;
+    }
+  }, [containerRef, location]);
 
   return map;
 };

@@ -29,7 +29,6 @@ export type ExtendedOffer = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  previewImage: string;
   description: string[];
   bedrooms: number;
   goods: Goods[];
