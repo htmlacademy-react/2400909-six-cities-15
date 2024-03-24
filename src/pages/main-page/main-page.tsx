@@ -1,8 +1,9 @@
 import OfferCardComponent from '../../components/offer-card-component';
 import Locations from './locations';
 import { Offer } from '../../types/offer';
-import { useState } from 'react';
-import { cities } from '../../mocks/cities';
+// import { useState } from 'react';
+// import { cities } from '../../mocks/cities';
+import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
 
 type MainPageProps = {
   placeCount: number;
@@ -10,13 +11,16 @@ type MainPageProps = {
 }
 
 function MainPage({placeCount, offers}: MainPageProps): JSX.Element {
-  const [activeCardId, setActiveCardId] = useState();
+  const offer = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.city);
+
+  const dispatch = useAppDispatch();
 
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
 
-      <Locations cities={cities}/>
+      <Locations />
 
       <div className="cities">
         <div className="cities__places-container container">
