@@ -3,7 +3,8 @@ import Locations from './locations';
 import { Offer } from '../../types/offer';
 // import { useState } from 'react';
 // import { cities } from '../../mocks/cities';
-import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
+import { useActionCreators, useAppSelector } from '../../components/hooks/store';
+import { offersActions, offersSelectors } from '../../store/slices/offers';
 
 type MainPageProps = {
   placeCount: number;
@@ -11,10 +12,10 @@ type MainPageProps = {
 }
 
 function MainPage({placeCount, offers}: MainPageProps): JSX.Element {
-  const offer = useAppSelector((state) => state.offers);
-  const currentCity = useAppSelector((state) => state.city);
+  const offer = useAppSelector(offersSelectors.offers);
+  const currentCity = useAppSelector(offersSelectors.city);
 
-  const dispatch = useAppDispatch();
+  const {setCity} = useActionCreators(offersActions);
 
   return (
     <main className="page__main page__main--index">
