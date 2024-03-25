@@ -6,12 +6,12 @@ import { cities } from "../../mocks/cities";
 import { offers } from "../../mocks/offers";
 
 type OffersState = {
-  city: CityName;
+  activeId?: Offer['id'];
   offers: Offer[];
 }
 
 const initialState: OffersState = {
-  city: cities[0],
+  activeId: undefined,
   offers,
 }
 
@@ -19,23 +19,17 @@ const offersSlice = createSlice({
   initialState,
   name: 'offers',
   reducers: {
-    setCity: (state, action: PayloadAction<CityName>) => {
-      state.city = action.payload;
+    setActiveId: (state, action: PayloadAction<Offer['id'] | undefined>) => {
+      state.activeId = action.payload;
     },
   },
   selectors: {
-    city: (state: OffersState) => state.city,
+    activeId: (state: OffersState) => state.activeId,
     offers: (state: OffersState) => state.offers,
   }
 });
 
 const offersActions = offersSlice.actions;
-const offersSelectors = {
- ...offersSlice.selectors,
- cityOffers: createSelector(offersSlice.selectors.offers, offersSlice.selectors.city, (allOffers,
-  city) =>
-  allOffers.filter((offer) => offer.city.name === city),
-  ),
-};
+const offersSelectors = offersSlice.selectors;
 
 export {offersActions, offersSelectors, offersSlice};

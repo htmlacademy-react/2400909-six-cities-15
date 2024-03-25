@@ -1,27 +1,31 @@
 //import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
+import { useActionCreators } from '../hooks/store';
+import { offersActions } from '../../store/slices/offers';
 
 type Props = {
   offer: Offer;
   block: string;
-  setActiveCardId?: (str: string) => void;
+  //setActiveCardId?: (str: string) => void;
 }
 
-function OfferCardComponent({offer, block, setActiveCardId}: Props): JSX.Element {
+function OfferCardComponent({offer, block}: Props): JSX.Element {
   //const [activeCard, setActiveCard] = useState('');
+  const {setActiveId} = useActionCreators(offersActions);
   const {isPremium, previewImage, price, rating, title, type} = offer;
   const offerPath = `/offer/${offer.id}`;
   const ratingStatus = rating / 5 * 100;
 
-  const handleMouseEnter = setActiveCardId && (() => {
-    setActiveCardId(offer.id);
-    //setActiveCard('place-card__bookmark-button--active');
-  });
+  const handleMouseEnter = (evt: MouseEvent<HTMLElement>) => {
+    const target = evt.currentTarget as HTMLElement;
+    const id = target.dataset.id;
+    setActiveId(id);
+  };
 
-  const handleMouseLeave = setActiveCardId && (() => {
-    setActiveCardId('');
-  });
+  const handleMouseLeave = () => {
+    setActiveId(undefined);
+  };
 
   return (
     <article className={`${block}__card place-card`}
