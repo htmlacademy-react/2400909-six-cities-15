@@ -1,8 +1,8 @@
-import { PayloadAction, createSelector } from "@reduxjs/toolkit";
+import { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import { CityName } from "../../types/city-name";
+//import { CityName } from "../../types/city-name";
 import { Offer } from "../../types/offer";
-import { cities } from "../../mocks/cities";
+//import { cities } from "../../mocks/cities";
 import { offers } from "../../mocks/offers";
 
 type OffersState = {
