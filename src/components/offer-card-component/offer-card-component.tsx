@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import { useActionCreators } from '../hooks/store';
 import { offersActions } from '../../store/slices/offers';
+import { useState } from 'react';
+import { SortOption } from '../sort/const';
 
 type Props = {
   offer: Offer;
@@ -11,7 +13,6 @@ type Props = {
 }
 
 function OfferCardComponent({offer, block}: Props): JSX.Element {
-  //const [activeCard, setActiveCard] = useState('');
   const {setActiveId} = useActionCreators(offersActions);
   const {isPremium, previewImage, price, rating, title, type} = offer;
   const offerPath = `/offer/${offer.id}`;

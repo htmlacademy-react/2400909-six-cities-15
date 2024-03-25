@@ -1,6 +1,6 @@
-import { useBoolean } from "../hooks/boolean";
-import { useEffect } from "react";
-import { SortOption, SORT_OPTIONS } from "./const";
+import { useBoolean } from '../hooks/boolean';
+import { useEffect } from 'react';
+import { SortOption, SORT_OPTIONS } from './const';
 
 type SortProps = {
   current: SortOption;
@@ -41,16 +41,16 @@ export default function Sort({current, setter}: SortProps): JSX.Element {
         </svg>
       </span>
       <ul className="places__options places__options--custom places__options--opened">
-      {SORT_OPTIONS.map((option, index) => (
-        <li
-          className="places__option places__option--active"
-          key={option}
-          onClick={() => setter(index)}
-          tabIndex={0}
-        >
-          {option}
-        </li>
-      ))}
+        {SORT_OPTIONS.map((option, index) => (
+          <li
+            className="places__option places__option--active"
+            key={option}
+            onClick={() => setter(index)}
+            tabIndex={0}
+          >
+            {option}
+          </li>
+        ))}
       </ul>
     </form>
   );

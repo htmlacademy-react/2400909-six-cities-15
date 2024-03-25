@@ -1,9 +1,9 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 //import { CityName } from "../../types/city-name";
-import { Offer } from "../../types/offer";
+import { Offer } from '../../types/offer';
 //import { cities } from "../../mocks/cities";
-import { offers } from "../../mocks/offers";
+import { offers } from '../../mocks/offers';
 
 type OffersState = {
   activeId?: Offer['id'];
@@ -13,7 +13,7 @@ type OffersState = {
 const initialState: OffersState = {
   activeId: undefined,
   offers,
-}
+};
 
 const offersSlice = createSlice({
   initialState,
