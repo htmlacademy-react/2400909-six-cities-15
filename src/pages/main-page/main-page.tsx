@@ -67,13 +67,13 @@ function MainPage({city, offers}: MainPageProps): JSX.Element {
             <div className="cities__places-list places__list tabs__content">
 
               {offers.map((offer) =>
-                <OfferCardComponent
+                (<OfferCardComponent
                   block="cities"
                   offer={offer}
                   key={offer.id}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
-                />)}
+                />))}
 
             </div>
           </section>
