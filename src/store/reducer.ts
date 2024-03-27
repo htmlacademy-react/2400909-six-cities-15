@@ -1,7 +1,7 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { changeCity } from "./action";
-import { getOffers } from "./action";
-import { Offer } from "../types/offer";
+import { createReducer } from '@reduxjs/toolkit';
+import { changeCity } from './action';
+import { getOffers } from './action';
+import { Offer } from '../types/offer';
 
 const initialState: {
   currentCity: string;

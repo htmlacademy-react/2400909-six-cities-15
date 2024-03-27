@@ -44,7 +44,8 @@ export default function Sort({current, setter}: SortProps): JSX.Element {
       <ul
         className={classNames('places__options', 'places__options--custom', {
           'places__options--opened': isOn,
-        })}>
+        })}
+      >
         {SORT_OPTIONS.map((option, index) => (
           <li
             className={classNames('places__option', {
