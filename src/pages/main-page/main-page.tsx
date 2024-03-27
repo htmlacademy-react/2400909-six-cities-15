@@ -1,17 +1,15 @@
-import classNames from 'classnames';
 import { MouseEvent, useState } from 'react';
 
 import { CityName } from '../../types/city-name';
 import { Offer } from '../../types/offer';
-
-import { useActionCreators, useAppSelector } from '../../components/hooks/store';
-import { offersActions, offersSelectors } from '../../store/slices/offers';
 
 import OfferCardComponent from '../../components/offer-card-component';
 import Locations from './locations';
 import { Map } from '../../components/map/map';
 import Sort from '../../components/sort/sort';
 import { SortOption } from '../../components/sort/const';
+import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
+import { getOffers } from '../../store/action';
 
 type MainPageProps = {
   city: CityName;
@@ -19,12 +17,14 @@ type MainPageProps = {
 }
 
 function MainPage({city, offers}: MainPageProps): JSX.Element {
-  const {setActiveId} = useActionCreators(offersActions);
+  const {activeId, setActiveId} = useState<string | undefined>();
+  const dispatch = useAppDispatch();
+  dispatch(getOffers(offers));
+
+  const currentOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === state.currentCity));
+
   const [activeSort, setActiveSort] = useState(SortOption.Popular);
 
-  // const offer = useAppSelector(offersSelectors.offers);
-  // const currentCity = useAppSelector(offersSelectors.city);
-  // const {setCity} = useActionCreators(offersActions);
 
   const handleMouseEnter = (evt: MouseEvent<HTMLElement>) => {
     const target = evt.currentTarget as HTMLElement;
@@ -73,12 +73,17 @@ function MainPage({city, offers}: MainPageProps): JSX.Element {
                   key={offer.id}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
+                  setActiveId={setActiveId}
                 />))}
 
             </div>
           </section>
           <div className="cities__right-section">
-            <Map city={city} offers={offers}/>
+            <Map
+              currentCity={currentOffers[0].city}
+              points = {currentOffers}
+              activeId={activeId}
+            />
           </div>
         </div>
       </div>

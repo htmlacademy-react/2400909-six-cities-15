@@ -1,10 +1,6 @@
-//import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
-import { useActionCreators } from '../hooks/store';
-import { offersActions } from '../../store/slices/offers';
-import { useState } from 'react';
-import { SortOption } from '../sort/const';
+import { useState, MouseEvent } from 'react';
 
 type Props = {
   offer: Offer;
@@ -13,7 +9,8 @@ type Props = {
 }
 
 function OfferCardComponent({offer, block}: Props): JSX.Element {
-  const {setActiveId} = useActionCreators(offersActions);
+  const [currentOffers, setCurrentOffers] = useState<Offer>(offer);
+
   const {isPremium, previewImage, price, rating, title, type} = offer;
   const offerPath = `/offer/${offer.id}`;
   const ratingStatus = rating / 5 * 100;
