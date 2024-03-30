@@ -1,5 +1,6 @@
 import FavoritesCities from './favorites-cities';
 import { Offer } from '../../types/offer';
+import { cities } from '../../mocks/cities';
 
 type TFavoriteProps = {
   favorites: Offer[];
@@ -15,7 +16,7 @@ function FavoritesPage({favorites}: TFavoriteProps): JSX.Element {
             <ul className="favorites__list">
               {
                 cities.map((city) =>
-                  (<FavoritesCities favorites={favorites} city={cities} key={city}/>))
+                  (<FavoritesCities favorites={favorites} cities={cities} key={city}/>))
               }
             </ul>
           </section>

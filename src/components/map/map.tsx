@@ -7,7 +7,6 @@ import { Offer } from '../../types/offer';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../const/const';
 import { ExtendedOffer } from '../../types/extended-offer';
 import { useAppSelector } from '../hooks/store';
-import { offersSelectors } from '../../store/slices/offers';
 
 type TMapProps = {
   className: string;
@@ -17,14 +16,14 @@ type TMapProps = {
 
 const defaultMarkerIcon = leaflet.icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [28, 40],
+  iconAnchor: [18, 40],
 });
 
 const activeMarkerIcon = leaflet.icon({
   iconUrl: URL_MARKER_ACTIVE,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [28, 40],
+  iconAnchor: [18, 40],
 });
 
 export const Map: FC<TMapProps> = ({className, offers}: TMapProps) => {
