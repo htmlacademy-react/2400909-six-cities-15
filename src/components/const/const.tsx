@@ -1,6 +1,3 @@
-import { ExtendedOffer } from '../../types/extended-offer';
-import { extendedOffers } from '../../mocks/extended-offers';
-
 export enum AppRoute {
   Root = '/',
   Login = '/login',

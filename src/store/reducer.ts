@@ -1,13 +1,46 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, requireAuthorization } from './action';
-import { getOffers } from './action';
-import { offers } from '../mocks/offers';
+import { changeCity,
+  getOfferId,
+  requireAuthorization,
+  getComments,
+  getFavoritesOffers,
+  getNearbyOffers,
+  getOffers,
+  getUserData,
+  setError } from './action';
 import { AuthorizationStatus } from '../components/const/const';
+import { Offer } from '../types/offer';
+import { ExtendedOffer } from '../types/extended-offer';
+import { Comment } from '../types/comment';
+import { UserData } from '../types/user-data';
 
-const initialState = {
+const initialState: {
+  currentCity: string;
+  offers: Offer[];
+  offer: ExtendedOffer | null;
+  nearbyOffers: Offer[];
+  favoritesOffers: Offer[];
+  comments: Comment[];
+  authorizationStatus: AuthorizationStatus;
+  error: null | string;
+  userData: UserData | null;
+  // isOffersDataLoading: boolean;
+  // isOfferLoadingStatus: boolean;
+  // isNearbyOffersLoadingStatus: boolean;
+
+} = {
   currentCity: 'Paris',
-  offers,
+  offers: [],
+  offer: null,
+  nearbyOffers: [],
+  favoritesOffers: [],
+  comments: [],
   authorizationStatus: AuthorizationStatus.Unknown,
+  error: null,
+  userData: null
+  // isOffersDataLoading: false,
+  // isOfferLoadingStatus: true,
+  // isNearbyOffersLoadingStatus: true,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -15,12 +48,30 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, {payload}) => {
       state.currentCity = payload;
     })
-    .addCase(getOffers, (state, action) => {
-      state.offers = action.payload;
+    .addCase(getOffers, (state, {payload}) => {
+      state.offers = payload;
     })
-    .addCase(requireAuthorization, (state, action) => {
-      state.authorizationStatus = action.payload;
-    });
+    .addCase(getOfferId, (state, {payload}) => {
+      state.offer = payload;
+    })
+    .addCase(requireAuthorization, (state, {payload}) => {
+      state.authorizationStatus = payload;
+    })
+    .addCase(getComments, (state, {payload}) => {
+      state.comments = payload;
+    })
+    .addCase(getNearbyOffers, (state, {payload}) => {
+      state.nearbyOffers = payload;
+    })
+    .addCase(getFavoritesOffers, (state, {payload}) => {
+      state.favoritesOffers = payload;
+    })
+    .addCase(setError, (state, {payload}) => {
+      state.error = payload;
+    })
+    .addCase(getUserData, (state, {payload}) => {
+      state.userData = payload;
+    })
 });
 
 export { reducer };
