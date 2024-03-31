@@ -14,7 +14,7 @@ import { ExtendedOffer } from '../types/extended-offer';
 import { Comment } from '../types/comment';
 import { UserData } from '../types/user-data';
 
-const initialState: {
+type InitialState = {
   currentCity: string;
   offers: Offer[];
   offer: ExtendedOffer | null;
@@ -27,8 +27,9 @@ const initialState: {
   // isOffersDataLoading: boolean;
   // isOfferLoadingStatus: boolean;
   // isNearbyOffersLoadingStatus: boolean;
+}
 
-} = {
+const initialState: InitialState = {
   currentCity: 'Paris',
   offers: [],
   offer: null,

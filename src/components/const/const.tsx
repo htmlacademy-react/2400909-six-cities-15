@@ -33,7 +33,7 @@ export const URL_MARKER_DEFAULT = './img/pin.svg';
 
 export const URL_MARKER_ACTIVE = './img/pin-active.svg';
 
-export const TIMEOUT_SHOW_ERROR = 1500;
+export const TIMEOUT_SHOW_ERROR = 2000;
 
 
 
