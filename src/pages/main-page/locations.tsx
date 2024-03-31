@@ -1,4 +1,4 @@
-import { cities } from '../../mocks/cities';
+import { CITIES } from '../../components/const/const';
 import { Link } from 'react-router-dom';
 
 export default function Locations(): JSX.Element {
@@ -7,7 +7,7 @@ export default function Locations(): JSX.Element {
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {
-            cities.map((city) => (
+            CITIES.map((city) => (
               <li key={city} className="locations__item">
                 <Link className="locations__item-link tabs__item" to="#">
                   <span>{city}</span>

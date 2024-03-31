@@ -10,7 +10,7 @@ type TFavoritesCitiesProps = {
 
 export default function FavoritesCities({favorites, cities}: TFavoritesCitiesProps): JSX.Element | null {
   const favoritesCities = favorites
-    .filter((favorite) => favorite.city.name === cities);
+    .filter((favorite) => favorite.city.name === cities.name);
 
   //const {city} = favoritesCities;
 
