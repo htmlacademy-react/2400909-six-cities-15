@@ -22,3 +22,6 @@ export const getFavoritesOffers = createAction<Offer>('сities/getFavoritesOffer
 export const getUserData = createAction<UserData>('getUserData ');
 
 export const setError = createAction<string | null>('сities/setError');
+
+export const setOffersLoadingStatus = createAction<boolean>('data/setOffersLoadingStatus');
+
