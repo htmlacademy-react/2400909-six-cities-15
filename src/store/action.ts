@@ -23,5 +23,5 @@ export const getUserData = createAction<UserData>('getUserData ');
 
 export const setError = createAction<string | null>('cities/setError');
 
-export const setOffersLoadingStatus = createAction<boolean>('data/setOffersLoadingStatus');
+export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 

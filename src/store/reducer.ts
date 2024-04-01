@@ -7,7 +7,8 @@ import { changeCity,
   getNearbyOffers,
   getOffers,
   getUserData,
-  setError } from './action';
+  setError,
+  setOffersDataLoadingStatus} from './action';
 import { AuthorizationStatus } from '../components/const/const';
 import { Offer } from '../types/offer';
 import { ExtendedOffer } from '../types/extended-offer';
@@ -24,7 +25,7 @@ type InitialState = {
   authorizationStatus: AuthorizationStatus;
   error: null | string;
   userData: UserData | null;
-  // isOffersDataLoading: boolean;
+  isOffersDataLoading: boolean;
   // isOfferLoadingStatus: boolean;
   // isNearbyOffersLoadingStatus: boolean;
 }
@@ -38,8 +39,8 @@ const initialState: InitialState = {
   comments: [],
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
-  userData: null
-  // isOffersDataLoading: false,
+  userData: null,
+  isOffersDataLoading: false,
   // isOfferLoadingStatus: true,
   // isNearbyOffersLoadingStatus: true,
 };
@@ -73,6 +74,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(getUserData, (state, {payload}) => {
       state.userData = payload;
     })
+    .addCase(setOffersDataLoadingStatus, (state, {payload}) => {
+      state.isOffersDataLoading = payload;
+    });
 });
 
 export { reducer };

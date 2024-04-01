@@ -9,10 +9,20 @@ import PrivateRoute from '../private-route/private-route';
 import ScrollToTop from '../scroll-to-top';
 import NotFoundPage from '../not-found-page';
 import Layout from '../layout/layout';
-import { getAuthorizationStatus } from '../../authorizationStatus';
+// import { getAuthorizationStatus } from '../../authorizationStatus';
+import { useSelector } from 'react-redux';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { AuthorizationStatus } from '../const/const';
 
 function App(): JSX.Element {
-  const authorizationStatus = getAuthorizationStatus();
+  const authorizationStatus = useSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useSelector((state) => state.isOffersDataLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <HelmetProvider>

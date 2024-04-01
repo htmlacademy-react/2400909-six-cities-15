@@ -15,7 +15,7 @@ import { APIRoute, TIMEOUT_SHOW_ERROR, AuthorizationStatus } from "../components
 import { store } from ".";
 
 import { getOffers,
-  setOffersLoadingStatus,
+  setOffersDataLoadingStatus,
   setError,
   getComments,
   requireAuthorization,
@@ -40,9 +40,9 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchOffers',
   async(_arg, {dispatch, extra: api}) => {
-    dispatch(setOffersLoadingStatus(true));
+    dispatch(setOffersDataLoadingStatus(true));
     const {data} = await api.get<Offer>(APIRoute.Offers);
-    dispatch(setOffersLoadingStatus(false));
+    dispatch(setOffersDataLoadingStatus(false));
     dispatch(getOffers(data));
   },
 );
