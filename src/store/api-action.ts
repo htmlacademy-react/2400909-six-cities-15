@@ -10,7 +10,7 @@ import { AuthData } from "../types/auth-data";
 import { UserData } from "../types/user-data";
 import { dropToken, saveToken } from "../services/token";
 
-import { APIRoute, TIMEOUT_SHOW_ERROR, AuthorizationStatus } from "../components/const/const";
+import { APIRoute, TIMEOUT_SHOW_ERROR, AuthorizationStatus, AppRoute } from "../components/const/const";
 
 import { store } from ".";
 
@@ -21,7 +21,8 @@ import { getOffers,
   requireAuthorization,
   getFavoritesOffers,
   getOfferId,
-  getUserData} from "./action";
+  getUserData,
+  redirectToRoute} from "./action";
 
  export const clearErrorAction = createAsyncThunk(
   'cities/clearError',
@@ -142,6 +143,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
       dispatch(getUserData(data));
       saveToken(data.token);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(redirectToRoute(AppRoute.Root));
     }catch{
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
