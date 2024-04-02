@@ -2,9 +2,10 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AppRoute } from '../const/const';
 import { AuthorizationStatus } from '../const/const';
 import { getLayoutState } from './utils';
-import { useAppSelector } from '../hooks/store';
-import { store } from '../../store';
-import { requireAuthorization } from '../../store/action';
+import { useAppDispatch, useAppSelector } from '../hooks/store';
+// import { store } from '../../store';
+// import { requireAuthorization } from '../../store/action';
+import { logoutAction } from '../../store/api-action';
 
 export default function Layout() {
   const {pathname} = useLocation();
@@ -13,9 +14,11 @@ export default function Layout() {
   const countFavorite = useAppSelector((state) => state.favoritesOffers);
   const userData = useAppSelector((state) => state.userData);
 
-  const handleClick = () => {
-    store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-  };
+  const dispatch = useAppDispatch();
+
+  // const handleClick = () => {
+  //   store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  // };
 
   const divStyle = {
     backgroundImage: `url(${userData?.avatarUrl})`,
@@ -50,7 +53,14 @@ export default function Layout() {
                     </li>
                     {authorizationStatus === AuthorizationStatus.Auth ? (
                       <li className="header__nav-item">
-                        <Link className="header__nav-link" to={AppRoute.Root} onClick={handleClick}>
+                        <Link
+                          className="header__nav-link"
+                          to={AppRoute.Root}
+                          onClick={(evt) => {
+                            evt.preventDefault();
+                            dispatch(logoutAction())
+                          }}
+                        >
                           <span className="header__signout">Sign out</span>
                         </Link>
                       </li>

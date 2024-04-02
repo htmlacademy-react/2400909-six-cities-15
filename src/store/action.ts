@@ -21,8 +21,6 @@ export const getFavoritesOffers = createAction<Offer>('cities/getFavoritesOffers
 
 export const getUserData = createAction<UserData>('getUserData ');
 
-export const setError = createAction<string | null>('cities/setError');
-
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 
 export const redirectToRoute = createAction<AppRoute>('cities/redirectToRoute');

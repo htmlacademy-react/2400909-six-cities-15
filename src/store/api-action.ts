@@ -10,13 +10,10 @@ import { AuthData } from "../types/auth-data";
 import { UserData } from "../types/user-data";
 import { dropToken, saveToken } from "../services/token";
 
-import { APIRoute, TIMEOUT_SHOW_ERROR, AuthorizationStatus, AppRoute } from "../components/const/const";
-
-import { store } from ".";
+import { APIRoute, AuthorizationStatus, AppRoute } from "../components/const/const";
 
 import { getOffers,
   setOffersDataLoadingStatus,
-  setError,
   getComments,
   requireAuthorization,
   getFavoritesOffers,
@@ -24,17 +21,7 @@ import { getOffers,
   getUserData,
   redirectToRoute} from "./action";
 
- export const clearErrorAction = createAsyncThunk(
-  'cities/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
-);
-
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
+ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: RootStore;
   extra: AxiosInstance;

@@ -7,7 +7,6 @@ import { changeCity,
   getNearbyOffers,
   getOffers,
   getUserData,
-  setError,
   setOffersDataLoadingStatus} from './action';
 import { AuthorizationStatus } from '../components/const/const';
 import { Offer } from '../types/offer';
@@ -23,7 +22,6 @@ type InitialState = {
   favoritesOffers: Offer[];
   comments: Comment[];
   authorizationStatus: AuthorizationStatus;
-  error: null | string;
   userData: UserData | null;
   isOffersDataLoading: boolean;
   // isOfferLoadingStatus: boolean;
@@ -38,7 +36,6 @@ const initialState: InitialState = {
   favoritesOffers: [],
   comments: [],
   authorizationStatus: AuthorizationStatus.Unknown,
-  error: null,
   userData: null,
   isOffersDataLoading: false,
   // isOfferLoadingStatus: true,
@@ -67,9 +64,6 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getFavoritesOffers, (state, {payload}) => {
       state.favoritesOffers = payload;
-    })
-    .addCase(setError, (state, {payload}) => {
-      state.error = payload;
     })
     .addCase(getUserData, (state, {payload}) => {
       state.userData = payload;
