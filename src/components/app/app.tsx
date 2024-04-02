@@ -1,4 +1,4 @@
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import AppRoute from '../const';
 import MainPage from '../../pages/main-page';
@@ -13,6 +13,8 @@ import Layout from '../layout/layout';
 import { useSelector } from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { AuthorizationStatus } from '../const/const';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 function App(): JSX.Element {
   const authorizationStatus = useSelector((state) => state.authorizationStatus);
@@ -26,7 +28,7 @@ function App(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <ScrollToTop />
         <Routes>
           <Route
@@ -67,7 +69,7 @@ function App(): JSX.Element {
             />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }
