@@ -1,45 +1,58 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AppRoute } from '../const/const';
 import { AuthorizationStatus } from '../const/const';
 import { getLayoutState } from './utils';
-import { getAuthorizationStatus } from '../../authorizationStatus';
+import { useAppSelector } from '../hooks/store';
+import { store } from '../../store';
+import { requireAuthorization } from '../../store/action';
 
 export default function Layout() {
   const {pathname} = useLocation();
   const {rootClassName, linkClassName, shouldRenderUser, shouldRenderFooter} = getLayoutState(pathname as AppRoute);
-  const authorizationStatus = getAuthorizationStatus();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const countFavorite = useAppSelector((state) => state.favoritesOffers);
+  const userData = useAppSelector((state) => state.userData);
+
+  const handleClick = () => {
+    store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  };
+
+  const divStyle = {
+    backgroundImage: `url(${userData?.avatarUrl})`,
+    borderRadius: '50%',
+  };
 
   return (
-    <div className={`page${rootClassName}`}>
+    <div className={`page ${rootClassName}`}>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className={`header__logo-link${linkClassName}`}>
+              <Link className={`header__logo-link${linkClassName}`} to={AppRoute.Root}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
+              </Link>
             </div>
             {
               shouldRenderUser ? (
                 <nav className="header__nav">
                   <ul className="header__nav-list">
                     <li className="header__nav-item user">
-                      <a className="header__nav-link header__nav-link--profile" href="#">
-                        <div className="header__avatar-wrapper user__avatar-wrapper">
+                      <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
+                        <div className="header__avatar-wrapper user__avatar-wrapper" style={divStyle}>
                         </div>
                         {authorizationStatus === AuthorizationStatus.Auth ? (
                           <>
-                            <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                            <span className="header__favorite-count">3</span>
+                            <span className="header__user-name user__name">{userData?.email}</span>
+                            <span className="header__favorite-count">{countFavorite.length}</span>
                           </>
                         ) : <span className="header__login">Sign in</span>}
-                      </a>
+                      </Link>
                     </li>
                     {authorizationStatus === AuthorizationStatus.Auth ? (
                       <li className="header__nav-item">
-                        <a className="header__nav-link" href="#">
+                        <Link className="header__nav-link" to={AppRoute.Root} onClick={handleClick}>
                           <span className="header__signout">Sign out</span>
-                        </a>
+                        </Link>
                       </li>
                     ) : null}
                   </ul>
@@ -52,9 +65,9 @@ export default function Layout() {
       <Outlet />
       {shouldRenderFooter ? (
         <footer className="footer container">
-          <a className="footer__logo-link" href="main.html">
+          <Link className="footer__logo-link" to={AppRoute.Root}>
             <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-          </a>
+          </Link>
         </footer>
       ) : null }
     </div>
