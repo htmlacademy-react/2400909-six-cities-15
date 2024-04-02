@@ -58,7 +58,7 @@ export default function Layout() {
                           to={AppRoute.Root}
                           onClick={(evt) => {
                             evt.preventDefault();
-                            dispatch(logoutAction())
+                            dispatch(logoutAction());
                           }}
                         >
                           <span className="header__signout">Sign out</span>

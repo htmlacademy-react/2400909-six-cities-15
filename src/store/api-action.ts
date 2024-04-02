@@ -1,16 +1,16 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AxiosInstance } from "axios";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosInstance } from 'axios';
 
-import { AppDispatch, RootStore } from "../types/store";
-import { Offer } from "../types/offer";
-import { ExtendedOffer } from "../types/extended-offer";
-import { UserComment } from "../types/user-comment";
-import { StatusFavorite } from "../types/status-favorite";
-import { AuthData } from "../types/auth-data";
-import { UserData } from "../types/user-data";
-import { dropToken, saveToken } from "../services/token";
+import { AppDispatch, RootStore } from '../types/store';
+import { Offer } from '../types/offer';
+import { ExtendedOffer } from '../types/extended-offer';
+import { UserComment } from '../types/user-comment';
+import { StatusFavorite } from '../types/status-favorite';
+import { AuthData } from '../types/auth-data';
+import { UserData } from '../types/user-data';
+import { dropToken, saveToken } from '../services/token';
 
-import { APIRoute, AuthorizationStatus, AppRoute } from "../components/const/const";
+import { APIRoute, AuthorizationStatus, AppRoute } from '../components/const/const';
 
 import { getOffers,
   setOffersDataLoadingStatus,
@@ -19,9 +19,9 @@ import { getOffers,
   getFavoritesOffers,
   getOfferId,
   getUserData,
-  redirectToRoute} from "./action";
+  redirectToRoute} from './action';
 
- export const fetchOffersAction = createAsyncThunk<void, undefined, {
+export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: RootStore;
   extra: AxiosInstance;

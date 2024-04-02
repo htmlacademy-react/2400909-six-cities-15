@@ -1,9 +1,9 @@
-import { Helmet } from "react-helmet-async";
-import { FormEvent, useRef } from "react";
-import { useAppDispatch } from "../../components/hooks/store";
-import { useNavigate } from "react-router-dom";
-import { loginAction } from "../../store/api-action";
-import AppRoute from "../../components/const";
+import { Helmet } from 'react-helmet-async';
+import { FormEvent, useRef } from 'react';
+import { useAppDispatch } from '../../components/hooks/store';
+import { useNavigate } from 'react-router-dom';
+import { loginAction } from '../../store/api-action';
+import AppRoute from '../../components/const';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -40,7 +40,7 @@ function LoginPage(): JSX.Element {
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
               <input
-              ref={loginRef}
+                ref={loginRef}
                 className="login__input form__input"
                 type="email"
                 name="email"
