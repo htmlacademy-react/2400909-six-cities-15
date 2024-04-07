@@ -1,35 +1,42 @@
 import { getAuthorizationStatus } from '../../authorizationStatus';
 import { AppRoute, AuthorizationStatus } from '../../components/const/const';
-import { getOfferById } from '../../mocks/extended-offers';
-import { Comment } from '../../types/comment';
 import ReviewComponent from '../../components/review-component';
 import { Navigate, useParams } from 'react-router-dom';
 import { Map } from '../../components/map/map';
 import OfferCardComponent from '../../components/offer-card-component';
-// import { extendedOffers } from '../../mocks/extended-offers';
-import { getNearOffers } from './const';
+import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
+import { useEffect } from 'react';
+import { fetchCommentsAction, fetchFavoritesOffersAction, fetchNearbyOffersAction, fetchOfferIdAction } from '../../store/api-action';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 
-type Props = {
-  comments: Comment[];
-}
+function OfferPage(): JSX.Element {
+  const {id} = useParams<{id: string}>();
+  const dispatch = useAppDispatch();
 
-function OfferPage({comments}: Props): JSX.Element {
-  const {id: offerId} = useParams();
-  const currentOffer = getOfferById(offerId);
-  //const foundOffer = extendedOffers.find((item) => item.id.toString() === offerId);
+  useEffect(() => {
+    dispatch(fetchOfferIdAction(id));
+    dispatch(fetchCommentsAction(id));
+    dispatch(fetchFavoritesOffersAction());
+    dispatch(fetchNearbyOffersAction(id))
+  }, [id, dispatch]);
+
+  const extendedOffer = useAppSelector((state) => state.offer);
+  const nearbyOffer = useAppSelector((state) => state.nearbyOffers);
+  const comment = useAppSelector((state) => state.comments);
+  const isOfferLoading = useAppSelector((state) => state.isOffersDataLoading);
   const authorizationStatus = getAuthorizationStatus();
-  const {user, comment} = comments[0];
 
-  //const offerPage = {...extendedOffers, ...foundOffer};
-  const nearOffers = getNearOffers(currentOffer);
+  if (isOfferLoading) {
+    return <LoadingScreen />;
+  }
 
-  if (!currentOffer) {
+  if (!extendedOffer) {
     return <Navigate to={AppRoute.NotFoundPage} replace/>;
   }
 
-  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults, description} = currentOffer;
-  const ratingStatus = rating * 20;
-  const nearOffersPlusCurrent = [currentOffer, ...nearOffers];
+  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults, description} = extendedOffer;
+  const ratingStatus = Math.round(rating * 20);
+  // const nearOffersPlusCurrent = [currentOffer, ...nearOffers];
 
   return (
     <main className="page__main page__main--offer">
@@ -45,9 +52,14 @@ function OfferPage({comments}: Props): JSX.Element {
         </div>
         <div className="offer__container container">
           <div className="offer__wrapper">
-            <div className="offer__mark">
-              <span>{isPremium}</span>
-            </div>
+          {
+              isPremium ?
+                (
+                  <div className="offer__mark">
+                    <span>Premium</span>
+                  </div>
+                ) : null
+            }
             <div className="offer__name-wrapper">
               <h1 className="offer__name">
                 {title}
@@ -151,16 +163,16 @@ function OfferPage({comments}: Props): JSX.Element {
         </div>
         <Map
           className="offer__map"
-          offers={nearOffersPlusCurrent}
+          currentCity={extendedOffer.city}
           //city={offerPage.city}
-          activeOfferId={currentOffer.id}
+          activeOfferId={extendedOffer.id}
         />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            {nearOffers.map((offer) => (
+            {nearbyOffer.map((offer) => (
               <OfferCardComponent key={offer.id} offer={offer} block="near-places" />
             ))}
           </div>

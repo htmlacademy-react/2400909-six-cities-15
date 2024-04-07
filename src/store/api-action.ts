@@ -19,7 +19,8 @@ import { getOffers,
   getFavoritesOffers,
   getOfferId,
   getUserData,
-  redirectToRoute} from './action';
+  redirectToRoute,
+  getNearbyOffers} from './action';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -81,6 +82,18 @@ export const saveFavoritesOffersAction = createAsyncThunk<void, StatusFavorite, 
   async ({id, isFavorite}, {dispatch, extra: api}) => {
     await api.post<UserComment>(`${APIRoute.Favorites}/${id}/${isFavorite}`);
     dispatch(fetchFavoritesOffersAction());
+  },
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: RootStore;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearbyOffers',
+  async(id, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offer []>(`${APIRoute.Offers}/${id}/nearby`);
+    dispatch(getNearbyOffers (data));
   },
 );
 

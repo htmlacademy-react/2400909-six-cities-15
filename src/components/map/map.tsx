@@ -11,7 +11,7 @@ import { useAppSelector } from '../hooks/store';
 type TMapProps = {
   className: string;
   offers: (Offer | ExtendedOffer)[];
-  //activeOfferId?: string | null;
+  activeOfferId?: string | null;
 };
 
 const defaultMarkerIcon = leaflet.icon({
@@ -26,9 +26,9 @@ const activeMarkerIcon = leaflet.icon({
   iconAnchor: [18, 40],
 });
 
-export const Map: FC<TMapProps> = ({className, offers}: TMapProps) => {
+export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const activeId = useAppSelector(offersSelectors.activeId);
+  const activeOfferId = useAppSelector(offersSelectors.activeOfferId);
   const {city} = offers[0];
   const map: LeafletMap | null = useMap({location: city.location, containerRef: mapContainerRef});
   const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());
@@ -49,13 +49,13 @@ export const Map: FC<TMapProps> = ({className, offers}: TMapProps) => {
             lat: offer.location.latitude,
             lng: offer.location.longitude,
           }, {
-            icon: offer.id === activeId ? activeMarkerIcon : defaultMarkerIcon,
+            icon: offer.id === activeOfferId ? activeMarkerIcon : defaultMarkerIcon,
           })
           .addTo(markerLayer.current);
       });
       markerLayer.current.addTo(map);
     }
-  }, [activeId, map, offers]);
+  }, [activeOfferId, map, offers]);
 
   return <section className={`map ${className}`} ref={mapContainerRef} />;
 };

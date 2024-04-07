@@ -24,3 +24,5 @@ export const getUserData = createAction<UserData>('getUserData ');
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
 
 export const redirectToRoute = createAction<AppRoute>('cities/redirectToRoute');
+
+
