@@ -1,6 +1,6 @@
-import { ExtendedOffer } from "../../types/extended-offer";
-import { Offer } from "../../types/offer";
-import { offers } from "../../mocks/offers";
+import { ExtendedOffer } from '../../types/extended-offer';
+import { Offer } from '../../types/offer';
+import { offers } from '../../mocks/offers';
 
 const MAX_NEAR_OFFERS = 3;
 

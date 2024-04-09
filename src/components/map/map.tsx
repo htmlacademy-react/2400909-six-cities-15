@@ -6,11 +6,13 @@ import 'leaflet/dist/leaflet.css';
 import { Offer } from '../../types/offer';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../const/const';
 import { ExtendedOffer } from '../../types/extended-offer';
+import { useAppSelector } from '../hooks/store';
+import { offersSelectors } from '../../store/slices/offers';
 
 type TMapProps = {
   className: string;
   offers: (Offer | ExtendedOffer)[];
-  activeOfferId?: string | null;
+  //activeOfferId?: string | null;
 };
 
 const defaultMarkerIcon = leaflet.icon({
@@ -25,8 +27,9 @@ const activeMarkerIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps) => {
+export const Map: FC<TMapProps> = ({className, offers}: TMapProps) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const activeId = useAppSelector(offersSelectors.activeId);
   const {city} = offers[0];
   const map: LeafletMap | null = useMap({location: city.location, containerRef: mapContainerRef});
   const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());
@@ -47,13 +50,13 @@ export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps
             lat: offer.location.latitude,
             lng: offer.location.longitude,
           }, {
-            icon: offer.id === activeOfferId ? activeMarkerIcon : defaultMarkerIcon,
+            icon: offer.id === activeId ? activeMarkerIcon : defaultMarkerIcon,
           })
           .addTo(markerLayer.current);
       });
       markerLayer.current.addTo(map);
     }
-  }, [activeOfferId, map, offers]);
+  }, [activeId, map, offers]);
 
   return <section className={`map ${className}`} ref={mapContainerRef} />;
 };
