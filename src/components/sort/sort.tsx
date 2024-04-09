@@ -1,6 +1,4 @@
-import { useBoolean } from '../hooks/boolean';
-import { useEffect } from 'react';
-import classNames from 'classnames';
+import { useEffect, useState } from 'react';
 import { SortOption, SORT_OPTIONS } from './const';
 
 type SortProps = {
@@ -9,16 +7,13 @@ type SortProps = {
 }
 
 export default function Sort({current, setter}: SortProps): JSX.Element {
-  const {isOn, off, toggle} = useBoolean(false);
+  const [isOpened, setOpened] = useState(false);
 
   useEffect(() => {
-    if (isOn) {
-      const onEscKeyDown = (evt: KeyboardEvent) => {
-        if (evt.key === 'Escape') {
-          evt.preventDefault();
-          off();
-        }
-      };
+    const onEscKeyDown = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+      }
 
       document.addEventListener('keydown', onEscKeyDown);
 
@@ -26,14 +21,18 @@ export default function Sort({current, setter}: SortProps): JSX.Element {
         document.removeEventListener('keydown', onEscKeyDown);
       };
     }
-  }, [isOn, off]);
+  }, []);
 
   const selectedOption = SORT_OPTIONS[current];
 
   return (
-    <form className="places__sorting" action="#" method="get" onClick={toggle}>
+    <form className="places__sorting" action="#" method="get" onClick={() => {}}>
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
+      <span
+        className="places__sorting-type"
+        tabIndex={0}
+        onClick={() => setOpened((prev) => !prev)}
+      >
 
         {selectedOption}
 
@@ -41,16 +40,10 @@ export default function Sort({current, setter}: SortProps): JSX.Element {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul
-        className={classNames('places__options', 'places__options--custom', {
-          'places__options--opened': isOn,
-        })}
-      >
+      <ul className={`places__options places__options--custom${isOpened ? ' places__options--opened' : ''}`}>
         {SORT_OPTIONS.map((option, index) => (
           <li
-            className={classNames('places__option', {
-              'places__option--active': selectedOption === option,
-            })}
+            className={'places__option places__option--active'}
             key={option}
             onClick={() => setter(index)}
             tabIndex={0}

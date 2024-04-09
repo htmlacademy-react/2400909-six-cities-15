@@ -36,7 +36,6 @@ function OfferPage(): JSX.Element {
 
   const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults, description} = extendedOffer;
   const ratingStatus = Math.round(rating * 20);
-  // const nearOffersPlusCurrent = [currentOffer, ...nearOffers];
 
   return (
     <main className="page__main page__main--offer">

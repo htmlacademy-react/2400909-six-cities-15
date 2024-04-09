@@ -1,28 +1,32 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
-import { useState, MouseEvent } from 'react';
+// import { useState, MouseEvent } from 'react';
 
 type Props = {
   offer: Offer;
   block: string;
-  //setActiveCardId?: (str: string) => void;
+  setActiveId?: (str: string | undefined) => void;
 }
 
-function OfferCardComponent({offer, block}: Props): JSX.Element {
-  const [currentOffers, setCurrentOffers] = useState<Offer>(offer);
+function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
+  // const [currentOffers, setCurrentOffers] = useState<Offer>(offer);
 
   const {isPremium, previewImage, price, rating, title, type} = offer;
   const offerPath = `/offer/${offer.id}`;
-  const ratingStatus = rating / 5 * 100;
+  const ratingStatus = Math.round(rating * 20);
 
-  const handleMouseEnter = (evt: MouseEvent<HTMLElement>) => {
-    const target = evt.currentTarget as HTMLElement;
-    const id = target.dataset.id;
-    setActiveId(id);
+  const handleMouseEnter = () => {
+    // const target = evt.currentTarget as HTMLElement;
+    // const id = target.dataset.id;
+    if (setActiveId) {
+      setActiveId(offer.id);
+    }
   };
 
   const handleMouseLeave = () => {
-    setActiveId(undefined);
+    if (setActiveId) {
+      setActiveId(undefined);
+    }
   };
 
   return (

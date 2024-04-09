@@ -16,6 +16,7 @@ import { UserData } from '../types/user-data';
 
 type InitialState = {
   currentCity: string;
+  currentSortType: string;
   offers: Offer[];
   offer: ExtendedOffer | null;
   nearbyOffers: Offer[];
@@ -30,6 +31,7 @@ type InitialState = {
 
 const initialState: InitialState = {
   currentCity: 'Paris',
+  currentSortType: 'Paris',
   offers: [],
   offer: null,
   nearbyOffers: [],

@@ -6,7 +6,6 @@ import 'leaflet/dist/leaflet.css';
 import { Offer } from '../../types/offer';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../const/const';
 import { ExtendedOffer } from '../../types/extended-offer';
-import { useAppSelector } from '../hooks/store';
 
 type TMapProps = {
   className: string;
@@ -28,7 +27,6 @@ const activeMarkerIcon = leaflet.icon({
 
 export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const activeOfferId = useAppSelector(offersSelectors.activeOfferId);
   const {city} = offers[0];
   const map: LeafletMap | null = useMap({location: city.location, containerRef: mapContainerRef});
   const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());
