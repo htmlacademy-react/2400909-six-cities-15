@@ -1,33 +1,33 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import OfferCardComponent from '../../components/offer-card-component';
 import Locations from './locations';
 import { Map } from '../../components/map/map';
 import Sort from '../../components/sort/sort';
-import { SortOption } from '../../components/sort/const';
+import { SortType } from '../../components/sort/const';
 import { useAppSelector } from '../../components/hooks/store';
+import { Offer } from '../../types/offer';
 
-function MainPage(): JSX.Element {
+type Props = {
+  setSort: (str: SortType) => void ;
+  activeOfferSort: SortType;
+}
+
+const sortOffer = {
+  [SortType.Popular]: () => 0,
+  [SortType.PriceLowToHigh]: ((a: Offer, b: Offer) => a.price - b.price),
+  [SortType.PriceHighToLow]: ((a: Offer, b: Offer) => b.price - a.price),
+  [SortType.TopRatedFirst]: ((a: Offer, b: Offer) => b.rating - a.rating),
+}
+
+function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>();
 
   const offers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === state.currentCity));
+  const sortedOffers = useMemo(() => [...offers].sort(sortOffer[activeOfferSort]), [offers, activeOfferSort]);
   const currentCity = useAppSelector((state) => state.currentCity);
 
-  const [activeSort, setActiveSort] = useState(SortOption.Popular);
-
-  let sortedOffers = offers;
-
-  if (activeSort === SortOption.PriceLowToHigh) {
-    sortedOffers = [...offers].sort((a, b) => a.price - b.price);
-  }
-
-  if (activeSort === SortOption.PriceHighToLow) {
-    sortedOffers = [...offers].sort((a, b) => b.price - a.price);
-  }
-
-  if (activeSort === SortOption.TopRatedFirst) {
-    sortedOffers = [...offers].sort((a, b) => b.rating - a.rating);
-  }
+  const [activeSort, setActiveSort] = useState<boolean>(false);
 
   return (
     <main className="page__main page__main--index">
@@ -40,12 +40,17 @@ function MainPage(): JSX.Element {
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">
-              {offers.length} place{offers.length > 1 && 's'} to stay in {currentCity}{' '}
+              {sortedOffers.length} place{sortedOffers.length > 1 && 's'} to stay in {currentCity}{' '}
             </b>
-            <Sort current={activeSort} setter={setActiveSort}/>
+            <Sort
+              activeOfferSort={activeOfferSort}
+              setSort={setSort}
+              activeSort={activeSort}
+              setActiveSort={setActiveSort}
+            />
             <div className="cities__places-list places__list tabs__content">
 
-              {offers.map((offer) => (
+              {sortedOffers.map((offer) => (
                 <OfferCardComponent
                   block="cities"
                   offer={offer}
@@ -57,11 +62,14 @@ function MainPage(): JSX.Element {
             </div>
           </section>
           <div className="cities__right-section">
-            <Map
-              className={'cities'}
-              offers = {offers}
-              activeOfferId={activeOfferId}
-            />
+            {
+              sortedOffers[0]?.city &&
+              <Map
+                 className={'cities'}
+                 offers = {sortedOffers}
+                 activeOfferId={activeOfferId}
+              />
+            }
           </div>
         </div>
       </div>

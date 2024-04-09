@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
-// import { useState, MouseEvent } from 'react';
 
 type Props = {
   offer: Offer;
@@ -9,7 +8,6 @@ type Props = {
 }
 
 function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
-  // const [currentOffers, setCurrentOffers] = useState<Offer>(offer);
 
   const {isPremium, previewImage, price, rating, title, type} = offer;
   const offerPath = `/offer/${offer.id}`;
