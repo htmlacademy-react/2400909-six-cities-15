@@ -27,8 +27,6 @@ function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
   const sortedOffers = useMemo(() => [...offers].sort(sortOffer[activeOfferSort]), [offers, activeOfferSort]);
   const currentCity = useAppSelector((state) => state.currentCity);
 
-  const [activeSort, setActiveSort] = useState<boolean>(false);
-
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -45,8 +43,6 @@ function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
             <Sort
               activeOfferSort={activeOfferSort}
               setSort={setSort}
-              activeSort={activeSort}
-              setActiveSort={setActiveSort}
             />
             <div className="cities__places-list places__list tabs__content">
 

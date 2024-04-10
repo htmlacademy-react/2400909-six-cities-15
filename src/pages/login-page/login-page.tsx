@@ -1,9 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { FormEvent, useRef } from 'react';
 import { useAppDispatch } from '../../components/hooks/store';
-import { useNavigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-action';
-import AppRoute from '../../components/const';
 import { loginErrorHandle } from '../../services/login-error-handle';
 
 function LoginPage(): JSX.Element {
@@ -11,7 +9,6 @@ function LoginPage(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -68,7 +65,6 @@ function LoginPage(): JSX.Element {
               />
             </div>
             <button
-              onClick={() => navigate(AppRoute.Root)}
               className="login__submit form__submit button"
               type="submit"
             >

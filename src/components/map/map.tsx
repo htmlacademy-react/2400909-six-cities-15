@@ -16,13 +16,13 @@ type TMapProps = {
 const defaultMarkerIcon = leaflet.icon({
   iconUrl: URL_MARKER_DEFAULT,
   iconSize: [28, 40],
-  iconAnchor: [18, 40],
+  iconAnchor: [14, 40],
 });
 
 const activeMarkerIcon = leaflet.icon({
   iconUrl: URL_MARKER_ACTIVE,
   iconSize: [28, 40],
-  iconAnchor: [18, 40],
+  iconAnchor: [14, 40],
 });
 
 export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps) => {
@@ -33,9 +33,10 @@ export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps
 
   useEffect(() => {
     if (map) {
-      //map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
-      // markerLayer.current.addTo(map);
-      // markerLayer.current.clearLayers();
+      map.panTo({
+        lat: city.location.latitude,
+        lng: city.location.longitude,
+      });
     }
   }, [city, map]);
 

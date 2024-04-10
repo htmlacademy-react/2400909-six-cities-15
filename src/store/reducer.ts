@@ -7,7 +7,9 @@ import { changeCity,
   getNearbyOffers,
   getOffers,
   getUserData,
-  setOffersDataLoadingStatus} from './action';
+  setOffersDataLoadingStatus,
+  setCurrentOfferDataLoadingStatus,
+  changeSortType} from './action';
 import { AuthorizationStatus } from '../components/const/const';
 import { Offer } from '../types/offer';
 import { ExtendedOffer } from '../types/extended-offer';
@@ -17,7 +19,7 @@ import { SortType } from '../components/sort/const';
 
 type InitialState = {
   currentCity: string;
-  currentSortType: string;
+  currentSortType: SortType;
   offers: Offer[];
   offer: ExtendedOffer | null;
   nearbyOffers: Offer[];
@@ -26,6 +28,7 @@ type InitialState = {
   authorizationStatus: AuthorizationStatus;
   userData: UserData | null;
   isOffersDataLoading: boolean;
+  isCurrentOfferDataLoading: boolean;
 }
 
 const initialState: InitialState = {
@@ -39,12 +42,16 @@ const initialState: InitialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
   isOffersDataLoading: false,
+  isCurrentOfferDataLoading: true,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeCity, (state, {payload}) => {
       state.currentCity = payload;
+    })
+    .addCase(changeSortType, (state, {payload}) => {
+      state.currentSortType = payload;
     })
     .addCase(getOffers, (state, {payload}) => {
       state.offers = payload;
@@ -69,6 +76,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setOffersDataLoadingStatus, (state, {payload}) => {
       state.isOffersDataLoading = payload;
+    })
+    .addCase(setCurrentOfferDataLoadingStatus, (state, {payload}) => {
+      state.isCurrentOfferDataLoading = payload;
     });
 });
 

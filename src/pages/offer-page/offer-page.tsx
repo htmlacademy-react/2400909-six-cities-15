@@ -15,16 +15,18 @@ function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchOfferIdAction(id));
-    dispatch(fetchCommentsAction(id));
-    dispatch(fetchFavoritesOffersAction());
-    dispatch(fetchNearbyOffersAction(id));
+    if (id) {
+      dispatch(fetchOfferIdAction(id));
+      dispatch(fetchCommentsAction(id));
+      dispatch(fetchFavoritesOffersAction());
+      dispatch(fetchNearbyOffersAction(id));
+    }
   }, [id, dispatch]);
 
   const extendedOffer = useAppSelector((state) => state.offer);
   const nearbyOffer = useAppSelector((state) => state.nearbyOffers);
-  const userComment = useAppSelector((state) => state.comments);
-  const isOfferLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const userComments = useAppSelector((state) => state.comments);
+  const isOfferLoading = useAppSelector((state) => state.isCurrentOfferDataLoading);
   const authorizationStatus = getAuthorizationStatus();
 
   if (isOfferLoading) {
@@ -36,7 +38,6 @@ function OfferPage(): JSX.Element {
   }
 
   const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults, description} = extendedOffer;
-  const {comment, date} = userComment;
   const ratingStatus = Math.round(rating * 20);
 
   return (
@@ -121,38 +122,39 @@ function OfferPage(): JSX.Element {
                 }
               </div>
               <div className="offer__description">
-                {
-                  description.map((description) =>
-                    (<p className="offer__text" key={description}>{description}</p>)
-                  )
-                }
+                <p className="offer__text" key={description}>{description}</p>
               </div>
             </div>
             <section className="offer__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{userComments.length}</span></h2>
               <ul className="reviews__list">
-                <li className="reviews__item">
-                  <div className="reviews__user user">
-                    <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                      <img className="reviews__avatar user__avatar" src={host.avatarUrl} width="54" height="54" alt="Reviews avatar" />
-                    </div>
-                    <span className="reviews__user-name">
-                      {host.name}
-                    </span>
-                  </div>
-                  <div className="reviews__info">
-                    <div className="reviews__rating rating">
-                      <div className="reviews__stars rating__stars">
-                        <span style={{width: `${ratingStatus}%`}}></span>
-                        <span className="visually-hidden">{rating}</span>
+                {userComments.slice(0, 10).map((userComment) => {
+                  const {comment, date} = userComment;
+                  return (
+                    <li key={userComment.id} className="reviews__item">
+                      <div className="reviews__user user">
+                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
+                          <img className="reviews__avatar user__avatar" src={host.avatarUrl} width="54" height="54" alt="Reviews avatar" />
+                        </div>
+                        <span className="reviews__user-name">
+                          {host.name}
+                        </span>
                       </div>
-                    </div>
-                    <p className="reviews__text">
-                      {comment}
-                    </p>
-                    <time className="reviews__time" dateTime={formatDateTime(date)}>{formatDate(date)}</time>
-                  </div>
-                </li>
+                      <div className="reviews__info">
+                        <div className="reviews__rating rating">
+                          <div className="reviews__stars rating__stars">
+                            <span style={{width: `${ratingStatus}%`}}></span>
+                            <span className="visually-hidden">{rating}</span>
+                          </div>
+                        </div>
+                        <p className="reviews__text">
+                          {comment}
+                        </p>
+                        <time className="reviews__time" dateTime={formatDateTime(date)}>{formatDate(date)}</time>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
 
               {authorizationStatus === AuthorizationStatus.Auth ? (
@@ -163,16 +165,16 @@ function OfferPage(): JSX.Element {
           </div>
         </div>
         <Map
-          className="offer__map"
-          currentCity={extendedOffer.city}
+          className="offer"
           activeOfferId={extendedOffer.id}
+          offers={[...nearbyOffer.slice(0, 3), extendedOffer]}
         />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
           <div className="near-places__list places__list">
-            {nearbyOffer.map((offer) => (
+            {nearbyOffer.slice(0, 3).map((offer) => (
               <OfferCardComponent key={offer.id} offer={offer} block="near-places" />
             ))}
           </div>

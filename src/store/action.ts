@@ -4,8 +4,11 @@ import { AppRoute, AuthorizationStatus } from '../components/const/const';
 import { Comment } from '../types/comment';
 import { ExtendedOffer } from '../types/extended-offer';
 import { UserData } from '../types/user-data';
+import { SortType } from '../components/sort/const';
 
 export const changeCity = createAction<string>('cities/changeCity');
+
+export const changeSortType = createAction<SortType>('cities/changeSortType');
 
 export const getOffers = createAction<Offer>('cities/addOffers');
 
@@ -19,9 +22,11 @@ export const getNearbyOffers = createAction<Offer[]>('cities/getNearbyOffers');
 
 export const getFavoritesOffers = createAction<Offer>('cities/getFavoritesOffers');
 
-export const getUserData = createAction<UserData>('getUserData ');
+export const getUserData = createAction<UserData | null>('getUserData ');
 
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
+
+export const setCurrentOfferDataLoadingStatus = createAction<boolean>('data/setCurrentOfferDataLoadingStatus');
 
 export const redirectToRoute = createAction<AppRoute>('cities/redirectToRoute');
 

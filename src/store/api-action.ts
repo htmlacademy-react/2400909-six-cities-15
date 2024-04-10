@@ -21,7 +21,8 @@ import { getOffers,
   getUserData,
   redirectToRoute,
   getNearbyOffers,
-  setError} from './action';
+  setError,
+  setCurrentOfferDataLoadingStatus} from './action';
 import { store } from '.';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
@@ -106,14 +107,14 @@ export const fetchOfferIdAction = createAsyncThunk<void, string, {
 }>(
   'data/fetchOfferId',
   async(id, {dispatch, extra: api}) => {
-    dispatch(setOffersDataLoadingStatus(true));
+    dispatch(setCurrentOfferDataLoadingStatus(true));
     try{
       const {data} = await api.get<ExtendedOffer>(`${APIRoute.Offers}/${id}`);
       dispatch(getOfferId(data));
     }catch{
       dispatch(getOfferId(null));
     }
-    dispatch(setOffersDataLoadingStatus(false));
+    dispatch(setCurrentOfferDataLoadingStatus(false));
   },
 );
 
@@ -162,6 +163,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(getUserData(null));
   },
 );
 
