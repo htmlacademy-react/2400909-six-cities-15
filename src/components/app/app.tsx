@@ -9,7 +9,6 @@ import PrivateRoute from '../private-route/private-route';
 import ScrollToTop from '../scroll-to-top';
 import NotFoundPage from '../not-found-page';
 import Layout from '../layout/layout';
-// import { getAuthorizationStatus } from '../../authorizationStatus';
 import { useSelector } from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { AuthorizationStatus } from '../const/const';
@@ -38,14 +37,16 @@ function App(): JSX.Element {
             <Route
               index
               element={
-                <MainPage />
+                <MainPage
+                />
               }
             />
             <Route
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage />
+                  <FavoritesPage
+                  />
                 </PrivateRoute>
               }
             />

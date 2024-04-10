@@ -13,6 +13,7 @@ import { Offer } from '../types/offer';
 import { ExtendedOffer } from '../types/extended-offer';
 import { Comment } from '../types/comment';
 import { UserData } from '../types/user-data';
+import { SortType } from '../components/sort/const';
 
 type InitialState = {
   currentCity: string;
@@ -25,13 +26,11 @@ type InitialState = {
   authorizationStatus: AuthorizationStatus;
   userData: UserData | null;
   isOffersDataLoading: boolean;
-  // isOfferLoadingStatus: boolean;
-  // isNearbyOffersLoadingStatus: boolean;
 }
 
 const initialState: InitialState = {
   currentCity: 'Paris',
-  currentSortType: 'Paris',
+  currentSortType: SortType.Popular,
   offers: [],
   offer: null,
   nearbyOffers: [],
@@ -40,8 +39,6 @@ const initialState: InitialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
   isOffersDataLoading: false,
-  // isOfferLoadingStatus: true,
-  // isNearbyOffersLoadingStatus: true,
 };
 
 const reducer = createReducer(initialState, (builder) => {

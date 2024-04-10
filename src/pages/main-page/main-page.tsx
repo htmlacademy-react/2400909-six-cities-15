@@ -8,7 +8,7 @@ import { SortType } from '../../components/sort/const';
 import { useAppSelector } from '../../components/hooks/store';
 import { Offer } from '../../types/offer';
 
-type Props = {
+export type Props = {
   setSort: (str: SortType) => void ;
   activeOfferSort: SortType;
 }

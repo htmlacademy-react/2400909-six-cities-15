@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SortType } from './const';
 
 type SortProps = {
   setSort: (str: SortType) => void;
   activeOfferSort: SortType;
-  setFilter: (str: boolean) => void;
-  isFilter: boolean;
+  setActiveSort: (str: boolean) => void;
+  activeSort: boolean;
 
 }
 
-export default function Sort({setSort, activeOfferSort, setFilter, isFilter}: SortProps): JSX.Element {
+export default function Sort({setSort, activeOfferSort, setActiveSort, activeSort}: SortProps): JSX.Element {
   const [isOpened, setOpened] = useState(false);
 
   // useEffect(() => {
@@ -46,7 +46,7 @@ export default function Sort({setSort, activeOfferSort, setFilter, isFilter}: So
             key={sortType}
             onClick={() => {
               setSort(sortType);
-              setFilter(!isFilter);
+              setActiveSort(!activeSort);
             }}
             tabIndex={0}
           >

@@ -3,8 +3,6 @@ import { AppRoute } from '../const/const';
 import { AuthorizationStatus } from '../const/const';
 import { getLayoutState } from './utils';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
-// import { store } from '../../store';
-// import { requireAuthorization } from '../../store/action';
 import { logoutAction } from '../../store/api-action';
 
 export default function Layout() {
@@ -15,10 +13,6 @@ export default function Layout() {
   const userData = useAppSelector((state) => state.userData);
 
   const dispatch = useAppDispatch();
-
-  // const handleClick = () => {
-  //   store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-  // };
 
   const divStyle = {
     backgroundImage: `url(${userData?.avatarUrl})`,

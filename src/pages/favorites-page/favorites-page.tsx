@@ -1,12 +1,15 @@
 import FavoritesCities from './favorites-cities';
-import { Offer } from '../../types/offer';
-import { CITIES } from '../../components/const/const';
+import { store } from '../../store';
+import { fetchFavoritesOffersAction } from '../../store/api-action';
+import { useAppSelector } from '../../components/hooks/store';
+import { CityName } from '../../types/city-name';
 
-type TFavoriteProps = {
-  favorites: Offer[];
-}
+store.dispatch(fetchFavoritesOffersAction());
 
-function FavoritesPage({favorites}: TFavoriteProps): JSX.Element {
+function FavoritesPage(): JSX.Element {
+  const favorites = useAppSelector((state) => state.favoritesOffers);
+  const uniqueCities = [...new Set(favorites.map((favorite) => favorite.city.name))];
+
   return (
     <div className="page">
       <main className="page__main page__main--favorites">
@@ -15,8 +18,8 @@ function FavoritesPage({favorites}: TFavoriteProps): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {
-                CITIES.map((city) =>
-                  (<FavoritesCities favorites={favorites} city={city} key={city}/>))
+                uniqueCities.map((city) =>
+                  (<FavoritesCities favorites={favorites} city={city as CityName} key={city}/>))
               }
             </ul>
           </section>

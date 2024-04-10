@@ -55,5 +55,5 @@ export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps
     }
   }, [activeOfferId, map, offers]);
 
-  return <section className={`map ${className}`} ref={mapContainerRef} />;
+  return <section className={`${className}__map map`} ref={mapContainerRef} />;
 };
