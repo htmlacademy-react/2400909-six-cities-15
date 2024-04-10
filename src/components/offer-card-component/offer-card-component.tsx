@@ -1,5 +1,10 @@
-import { Link } from 'react-router-dom';
+import { memo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Offer } from '../../types/offer';
+import { useAppSelector } from '../hooks/store';
+import { AppRoute, AuthorizationStatus } from '../const/const';
+import { store } from '../../store';
+import { saveFavoritesOffersAction } from '../../store/api-action';
 
 type Props = {
   offer: Offer;
@@ -8,15 +13,25 @@ type Props = {
 }
 
 function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus)
+  const navigate = useNavigate();
+  const handleFavoriteClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+    } else {
+      store.dispatch(saveFavoritesOffersAction({
+        id: offer.id,
+        isFavorite: offer.isFavorite,
+      }));
+    }
+  };
 
-  const {isPremium, previewImage, price, rating, title, type} = offer;
+  const {isPremium, previewImage, price, rating, title, type, isFavorite} = offer;
   const offerPath = `/offer/${offer.id}`;
   const ratingStatus = Math.round(rating * 20);
 
   const handleMouseEnter = () => {
-    // const target = evt.currentTarget as HTMLElement;
-    // const id = target.dataset.id;
-    if (setActiveId) {
+      if (setActiveId) {
       setActiveId(offer.id);
     }
   };
@@ -48,7 +63,11 @@ function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button place-card__bookmark-button--active" type="button">
+          <button
+            className={`place-card__bookmark-button button${isFavorite ? ' place-card__bookmark-button--active' : ''}`}
+            type="button"
+            onClick={handleFavoriteClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -58,7 +77,7 @@ function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
             <span style={{width: ratingStatus}}></span>
-            <span className="visually-hidden">Rating</span>
+            <span className="visually-hidden">{ratingStatus}</span>
           </div>
         </div>
         <h2 className="place-card__name">
@@ -70,4 +89,4 @@ function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
   );
 }
 
-export default OfferCardComponent;
+export default memo(OfferCardComponent);
