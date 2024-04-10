@@ -14,10 +14,20 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import { AuthorizationStatus } from '../const/const';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../hooks/store';
+import { fetchFavoritesOffersAction } from '../../store/api-action';
 
 function App(): JSX.Element {
   const authorizationStatus = useSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useSelector((state) => state.isOffersDataLoading);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritesOffersAction());
+    }
+  }, [dispatch, authorizationStatus]);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (

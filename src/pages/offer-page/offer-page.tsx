@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
 import { useEffect } from 'react';
 import { fetchCommentsAction, fetchFavoritesOffersAction, fetchNearbyOffersAction, fetchOfferIdAction } from '../../store/api-action';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
+import { formatDate, formatDateTime } from '../../components/const/utils';
 
 function OfferPage(): JSX.Element {
   const {id} = useParams<{id: string}>();
@@ -22,7 +23,7 @@ function OfferPage(): JSX.Element {
 
   const extendedOffer = useAppSelector((state) => state.offer);
   const nearbyOffer = useAppSelector((state) => state.nearbyOffers);
-  const comment = useAppSelector((state) => state.comments);
+  const userComment = useAppSelector((state) => state.comments);
   const isOfferLoading = useAppSelector((state) => state.isOffersDataLoading);
   const authorizationStatus = getAuthorizationStatus();
 
@@ -35,6 +36,7 @@ function OfferPage(): JSX.Element {
   }
 
   const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults, description} = extendedOffer;
+  const {comment, date} = userComment;
   const ratingStatus = Math.round(rating * 20);
 
   return (
@@ -132,10 +134,10 @@ function OfferPage(): JSX.Element {
                 <li className="reviews__item">
                   <div className="reviews__user user">
                     <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                      <img className="reviews__avatar user__avatar" src={user.avatarUrl} width="54" height="54" alt="Reviews avatar" />
+                      <img className="reviews__avatar user__avatar" src={host.avatarUrl} width="54" height="54" alt="Reviews avatar" />
                     </div>
                     <span className="reviews__user-name">
-                      {user.name}
+                      {host.name}
                     </span>
                   </div>
                   <div className="reviews__info">
@@ -148,7 +150,7 @@ function OfferPage(): JSX.Element {
                     <p className="reviews__text">
                       {comment}
                     </p>
-                    <time className="reviews__time" dateTime={'2019-04-24'}>April 2019</time>
+                    <time className="reviews__time" dateTime={formatDateTime(date)}>{formatDate(date)}</time>
                   </div>
                 </li>
               </ul>
