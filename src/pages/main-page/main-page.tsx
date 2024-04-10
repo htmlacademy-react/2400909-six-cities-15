@@ -1,83 +1,75 @@
-import OfferCardComponent from '../../components/offer-card-component';
+import { useMemo, useState } from 'react';
 
-type MainPageProps = {
-  placeCount: number;
+import OfferCardComponent from '../../components/offer-card-component';
+import Locations from './locations';
+import { Map } from '../../components/map/map';
+import Sort from '../../components/sort/sort';
+import { SortType } from '../../components/sort/const';
+import { useAppSelector } from '../../components/hooks/store';
+import { Offer } from '../../types/offer';
+
+export type Props = {
+  setSort: (str: SortType) => void ;
+  activeOfferSort: SortType;
 }
 
-function MainPage({placeCount}: MainPageProps): JSX.Element {
+const sortOffer = {
+  [SortType.Popular]: () => 0,
+  [SortType.PriceLowToHigh]: ((a: Offer, b: Offer) => a.price - b.price),
+  [SortType.PriceHighToLow]: ((a: Offer, b: Offer) => b.price - a.price),
+  [SortType.TopRatedFirst]: ((a: Offer, b: Offer) => b.rating - a.rating),
+};
+
+function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState<string | undefined>();
+
+  const offers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === state.currentCity));
+  const sortedOffers = useMemo(() => [...offers].sort(sortOffer[activeOfferSort]), [offers, activeOfferSort]);
+  const currentCity = useAppSelector((state) => state.currentCity);
+
   return (
-      <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placeCount} places to stay in Amsterdam</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <div className="cities__places-list places__list tabs__content">
-                <OfferCardComponent />
-                <OfferCardComponent />
-                <OfferCardComponent />
-                <OfferCardComponent />
-                <OfferCardComponent />
-              </div>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map"></section>
+    <main className="page__main page__main--index">
+      <h1 className="visually-hidden">Cities</h1>
+
+      <Locations />
+
+      <div className="cities">
+        <div className="cities__places-container container">
+          <section className="cities__places places">
+            <h2 className="visually-hidden">Places</h2>
+            <b className="places__found">
+              {sortedOffers.length} place{sortedOffers.length > 1 && 's'} to stay in {currentCity}{' '}
+            </b>
+            <Sort
+              activeOfferSort={activeOfferSort}
+              setSort={setSort}
+            />
+            <div className="cities__places-list places__list tabs__content">
+
+              {sortedOffers.map((offer) => (
+                <OfferCardComponent
+                  block="cities"
+                  offer={offer}
+                  key={offer.id}
+                  setActiveId={setActiveOfferId}
+                />
+              ))}
+
             </div>
+          </section>
+          <div className="cities__right-section">
+            {
+              sortedOffers[0]?.city &&
+              <Map
+                className={'cities'}
+                offers = {sortedOffers}
+                activeOfferId={activeOfferId}
+              />
+            }
           </div>
         </div>
-      </main>
+      </div>
+    </main>
   );
 }
 
