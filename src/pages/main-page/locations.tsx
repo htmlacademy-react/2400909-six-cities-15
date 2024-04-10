@@ -19,7 +19,7 @@ export default function Locations(): JSX.Element {
                   to="#"
                   onClick={(evt) => {
                     evt.preventDefault();
-                    dispatch(changeCity(city))
+                    dispatch(changeCity(city));
                   }}
                 >
                   <span>{city}</span>

@@ -13,7 +13,7 @@ type Props = {
 }
 
 function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus)
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const navigate = useNavigate();
   const handleFavoriteClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
@@ -31,7 +31,7 @@ function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
   const ratingStatus = Math.round(rating * 20);
 
   const handleMouseEnter = () => {
-      if (setActiveId) {
+    if (setActiveId) {
       setActiveId(offer.id);
     }
   };

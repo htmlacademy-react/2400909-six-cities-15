@@ -17,7 +17,7 @@ function LoginPage(): JSX.Element {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
-      const password =  passwordRef.current.value;
+      const password = passwordRef.current.value;
 
       if (/[A-Za-z]/.test(password) && /\d/.test(password)) {
         dispatch(loginAction({
@@ -25,8 +25,8 @@ function LoginPage(): JSX.Element {
           password: password,
         }));
       } else {
-          const errorMessage = 'The password should includes min one number & one letter';
-          loginErrorHandle(errorMessage);
+        const errorMessage = 'The password should includes min one number & one letter';
+        loginErrorHandle(errorMessage);
       }
     }
   };

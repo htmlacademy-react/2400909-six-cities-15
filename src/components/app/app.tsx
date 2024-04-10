@@ -47,16 +47,14 @@ function App(): JSX.Element {
             <Route
               index
               element={
-                <MainPage
-                />
+                <MainPage />
               }
             />
             <Route
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage
-                  />
+                  <FavoritesPage />
                 </PrivateRoute>
               }
             />

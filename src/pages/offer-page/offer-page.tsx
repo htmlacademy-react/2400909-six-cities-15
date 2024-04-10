@@ -18,7 +18,7 @@ function OfferPage(): JSX.Element {
     dispatch(fetchOfferIdAction(id));
     dispatch(fetchCommentsAction(id));
     dispatch(fetchFavoritesOffersAction());
-    dispatch(fetchNearbyOffersAction(id))
+    dispatch(fetchNearbyOffersAction(id));
   }, [id, dispatch]);
 
   const extendedOffer = useAppSelector((state) => state.offer);
@@ -53,7 +53,7 @@ function OfferPage(): JSX.Element {
         </div>
         <div className="offer__container container">
           <div className="offer__wrapper">
-          {
+            {
               isPremium ?
                 (
                   <div className="offer__mark">
@@ -165,7 +165,6 @@ function OfferPage(): JSX.Element {
         <Map
           className="offer__map"
           currentCity={extendedOffer.city}
-          //city={offerPage.city}
           activeOfferId={extendedOffer.id}
         />
       </section>

@@ -18,7 +18,7 @@ const sortOffer = {
   [SortType.PriceLowToHigh]: ((a: Offer, b: Offer) => a.price - b.price),
   [SortType.PriceHighToLow]: ((a: Offer, b: Offer) => b.price - a.price),
   [SortType.TopRatedFirst]: ((a: Offer, b: Offer) => b.rating - a.rating),
-}
+};
 
 function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>();
@@ -65,9 +65,9 @@ function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
             {
               sortedOffers[0]?.city &&
               <Map
-                 className={'cities'}
-                 offers = {sortedOffers}
-                 activeOfferId={activeOfferId}
+                className={'cities'}
+                offers = {sortedOffers}
+                activeOfferId={activeOfferId}
               />
             }
           </div>
