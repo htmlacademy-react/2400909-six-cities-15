@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import AppRoute from '../../components/const';
+import { store } from '../../store';
+import { saveFavoritesOffersAction } from '../../store/api-action';
 
 type TCitiesItemsProps = {
   favorite: Offer;
@@ -8,6 +10,13 @@ type TCitiesItemsProps = {
 
 export default function CitiesItems({favorite}: TCitiesItemsProps): JSX.Element {
   const {isPremium, type, previewImage, price, title} = favorite;
+
+  const handleFavoriteClick = () => {
+    store.dispatch(saveFavoritesOffersAction({
+      id: favorite.id,
+      isFavorite: favorite.isFavorite,
+    }));
+  };
 
   return (
     <article className="favorites__card place-card">
@@ -37,7 +46,11 @@ export default function CitiesItems({favorite}: TCitiesItemsProps): JSX.Element 
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button
+            className="place-card__bookmark-button place-card__bookmark-button--active button"
+            type="button"
+            onClick={handleFavoriteClick}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

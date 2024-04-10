@@ -1,61 +1,39 @@
-import { useBoolean } from '../hooks/boolean';
-import { useEffect } from 'react';
-import classNames from 'classnames';
-import { SortOption, SORT_OPTIONS } from './const';
+import { useState } from 'react';
+import { SortType } from './const';
+import { useAppDispatch, useAppSelector } from '../hooks/store';
+import { changeSortType } from '../../store/action';
 
-type SortProps = {
-  current: SortOption;
-  setter: (option: SortOption) => void;
-}
+export default function Sort(): JSX.Element {
+  const [isOpened, setOpened] = useState(false);
+  const dispatch = useAppDispatch();
+  const currentSortType = useAppSelector((state) => state.currentSortType);
 
-export default function Sort({current, setter}: SortProps): JSX.Element {
-  const {isOn, off, toggle} = useBoolean(false);
-
-  useEffect(() => {
-    if (isOn) {
-      const onEscKeyDown = (evt: KeyboardEvent) => {
-        if (evt.key === 'Escape') {
-          evt.preventDefault();
-          off();
-        }
-      };
-
-      document.addEventListener('keydown', onEscKeyDown);
-
-      return () => {
-        document.removeEventListener('keydown', onEscKeyDown);
-      };
-    }
-  }, [isOn, off]);
-
-  const selectedOption = SORT_OPTIONS[current];
 
   return (
-    <form className="places__sorting" action="#" method="get" onClick={toggle}>
+    <form className="places__sorting" action="#" method="get" onClick={() => {}}>
       <span className="places__sorting-caption">Sort by</span>
-      <span className="places__sorting-type" tabIndex={0}>
-
-        {selectedOption}
-
+      <span
+        className="places__sorting-type"
+        tabIndex={0}
+        onClick={() => setOpened((prev) => !prev)}
+      >
+        {currentSortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul
-        className={classNames('places__options', 'places__options--custom', {
-          'places__options--opened': isOn,
-        })}
-      >
-        {SORT_OPTIONS.map((option, index) => (
+      <ul className={`places__options places__options--custom${isOpened ? ' places__options--opened' : ''}`}>
+        {Object.values(SortType).map((sortType) => (
           <li
-            className={classNames('places__option', {
-              'places__option--active': selectedOption === option,
-            })}
-            key={option}
-            onClick={() => setter(index)}
+            className={`places__option${sortType === currentSortType ? ' places__option--active' : ''}`}
+            key={sortType}
+            onClick={() => {
+              setOpened(false);
+              dispatch(changeSortType(sortType));
+            }}
             tabIndex={0}
           >
-            {option}
+            {sortType}
           </li>
         ))}
       </ul>

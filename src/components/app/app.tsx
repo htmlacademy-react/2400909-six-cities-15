@@ -1,4 +1,4 @@
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import AppRoute from '../const';
 import MainPage from '../../pages/main-page';
@@ -9,23 +9,35 @@ import PrivateRoute from '../private-route/private-route';
 import ScrollToTop from '../scroll-to-top';
 import NotFoundPage from '../not-found-page';
 import Layout from '../layout/layout';
-import { getAuthorizationStatus } from '../../authorizationStatus';
-import { Offer } from '../../types/offer';
-import { Comment } from '../../types/comment';
+import { useSelector } from 'react-redux';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { AuthorizationStatus } from '../const/const';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../hooks/store';
+import { fetchFavoritesOffersAction } from '../../store/api-action';
 
-type AppProps = {
-  placeCount: number;
-  offers: Offer[];
-  favorites: Offer[];
-  comments: Comment[];
-}
+function App(): JSX.Element {
+  const authorizationStatus = useSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useSelector((state) => state.isOffersDataLoading);
+  const dispatch = useAppDispatch();
 
-function App({placeCount, offers, favorites, comments}: AppProps): JSX.Element {
-  const authorizationStatus = getAuthorizationStatus();
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritesOffersAction());
+    }
+  }, [dispatch, authorizationStatus]);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <ScrollToTop />
         <Routes>
           <Route
@@ -35,19 +47,14 @@ function App({placeCount, offers, favorites, comments}: AppProps): JSX.Element {
             <Route
               index
               element={
-                <MainPage
-                  placeCount = {placeCount}
-                  offers = {offers}
-                />
+                <MainPage />
               }
             />
             <Route
               path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage
-                    favorites = {favorites}
-                  />
+                  <FavoritesPage />
                 </PrivateRoute>
               }
             />
@@ -62,9 +69,7 @@ function App({placeCount, offers, favorites, comments}: AppProps): JSX.Element {
             <Route
               path={AppRoute.Offer}
               element={
-                <OfferPage
-                  comments = {comments}
-                />
+                <OfferPage />
               }
             />
             <Route
@@ -73,7 +78,7 @@ function App({placeCount, offers, favorites, comments}: AppProps): JSX.Element {
             />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }

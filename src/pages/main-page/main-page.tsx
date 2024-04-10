@@ -1,54 +1,31 @@
-import { MouseEvent, useState } from 'react';
-
-import { CityName } from '../../types/city-name';
-import { Offer } from '../../types/offer';
+import { useMemo, useState } from 'react';
 
 import OfferCardComponent from '../../components/offer-card-component';
 import Locations from './locations';
 import { Map } from '../../components/map/map';
 import Sort from '../../components/sort/sort';
-import { SortOption } from '../../components/sort/const';
-import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
-import { getOffers } from '../../store/action';
+import { SortType } from '../../components/sort/const';
+import { useAppSelector } from '../../components/hooks/store';
+import { Offer } from '../../types/offer';
 
-type MainPageProps = {
-  city: CityName;
-  offers: Offer[];
+export type Props = {
+  setSort: (str: SortType) => void ;
+  activeOfferSort: SortType;
 }
 
-function MainPage({city, offers}: MainPageProps): JSX.Element {
-  const {activeId, setActiveId} = useState<string | undefined>();
-  const dispatch = useAppDispatch();
-  dispatch(getOffers(offers));
+const sortOffer = {
+  [SortType.Popular]: () => 0,
+  [SortType.PriceLowToHigh]: ((a: Offer, b: Offer) => a.price - b.price),
+  [SortType.PriceHighToLow]: ((a: Offer, b: Offer) => b.price - a.price),
+  [SortType.TopRatedFirst]: ((a: Offer, b: Offer) => b.rating - a.rating),
+};
 
-  const currentOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === state.currentCity));
+function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState<string | undefined>();
 
-  const [activeSort, setActiveSort] = useState(SortOption.Popular);
-
-
-  const handleMouseEnter = (evt: MouseEvent<HTMLElement>) => {
-    const target = evt.currentTarget as HTMLElement;
-    const id = target.dataset.id;
-    setActiveId(id);
-  };
-
-  const handleMouseLeave = () => {
-    setActiveId(undefined);
-  };
-
-  let sortedOffers = offers;
-
-  if (activeSort === SortOption.PriceLowToHigh) {
-    sortedOffers = [...offers].sort((a, b) => a.price - b.price);
-  }
-
-  if (activeSort === SortOption.PriceHighToLow) {
-    sortedOffers = [...offers].sort((a, b) => b.price - a.price);
-  }
-
-  if (activeSort === SortOption.TopRatedFirst) {
-    sortedOffers = [...offers].sort((a, b) => b.rating - a.rating);
-  }
+  const offers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === state.currentCity));
+  const sortedOffers = useMemo(() => [...offers].sort(sortOffer[activeOfferSort]), [offers, activeOfferSort]);
+  const currentCity = useAppSelector((state) => state.currentCity);
 
   return (
     <main className="page__main page__main--index">
@@ -61,29 +38,34 @@ function MainPage({city, offers}: MainPageProps): JSX.Element {
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">
-              {offers.length} place{offers.length > 1 && 's'} to stay in {city}{' '}
+              {sortedOffers.length} place{sortedOffers.length > 1 && 's'} to stay in {currentCity}{' '}
             </b>
-            <Sort current={activeSort} setter={setActiveSort}/>
+            <Sort
+              activeOfferSort={activeOfferSort}
+              setSort={setSort}
+            />
             <div className="cities__places-list places__list tabs__content">
 
-              {offers.map((offer) =>
-                (<OfferCardComponent
+              {sortedOffers.map((offer) => (
+                <OfferCardComponent
                   block="cities"
                   offer={offer}
                   key={offer.id}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  setActiveId={setActiveId}
-                />))}
+                  setActiveId={setActiveOfferId}
+                />
+              ))}
 
             </div>
           </section>
           <div className="cities__right-section">
-            <Map
-              currentCity={currentOffers[0].city}
-              points = {currentOffers}
-              activeId={activeId}
-            />
+            {
+              sortedOffers[0]?.city &&
+              <Map
+                className={'cities'}
+                offers = {sortedOffers}
+                activeOfferId={activeOfferId}
+              />
+            }
           </div>
         </div>
       </div>
