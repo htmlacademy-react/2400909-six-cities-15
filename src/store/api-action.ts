@@ -10,7 +10,7 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../services/token';
 
-import { APIRoute, AuthorizationStatus, AppRoute } from '../components/const/const';
+import { APIRoute, AuthorizationStatus, AppRoute, TIMEOUT_SHOW_ERROR } from '../components/const/const';
 
 import { getOffers,
   setOffersDataLoadingStatus,
@@ -20,7 +20,9 @@ import { getOffers,
   getOfferId,
   getUserData,
   redirectToRoute,
-  getNearbyOffers} from './action';
+  getNearbyOffers,
+  setError} from './action';
+import { store } from '.';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -104,14 +106,14 @@ export const fetchOfferIdAction = createAsyncThunk<void, string, {
 }>(
   'data/fetchOfferId',
   async(id, {dispatch, extra: api}) => {
-    dispatch(setOffersLoadingStatus(true));
+    dispatch(setOffersDataLoadingStatus(true));
     try{
       const {data} = await api.get<ExtendedOffer>(`${APIRoute.Offers}/${id}`);
       dispatch(getOfferId(data));
     }catch{
       dispatch(getOfferId(null));
     }
-    dispatch(setOffersLoadingStatus(false));
+    dispatch(setOffersDataLoadingStatus(false));
   },
 );
 
@@ -160,5 +162,15 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  },
+);
+
+export const clearErrorAction = createAsyncThunk(
+  'cities/clearError',
+  () => {
+    setTimeout(
+      () => store.dispatch(setError(null)),
+      TIMEOUT_SHOW_ERROR,
+    );
   },
 );

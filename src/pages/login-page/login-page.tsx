@@ -4,6 +4,7 @@ import { useAppDispatch } from '../../components/hooks/store';
 import { useNavigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-action';
 import AppRoute from '../../components/const';
+import { loginErrorHandle } from '../../services/login-error-handle';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -16,10 +17,17 @@ function LoginPage(): JSX.Element {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        login: loginRef.current.value,
-        password: passwordRef.current.value,
-      }));
+      const password =  passwordRef.current.value;
+
+      if (/[A-Za-z]/.test(password) && /\d/.test(password)) {
+        dispatch(loginAction({
+          login: loginRef.current.value,
+          password: password,
+        }));
+      } else {
+          const errorMessage = 'The password should includes min one number & one letter';
+          loginErrorHandle(errorMessage);
+      }
     }
   };
 
@@ -40,12 +48,12 @@ function LoginPage(): JSX.Element {
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
               <input
-                ref={loginRef}
                 className="login__input form__input"
                 type="email"
                 name="email"
                 placeholder="Email"
                 required
+                ref={loginRef}
               />
             </div>
             <div className="login__input-wrapper form__input-wrapper">

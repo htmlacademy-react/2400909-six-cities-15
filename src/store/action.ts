@@ -25,4 +25,4 @@ export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersD
 
 export const redirectToRoute = createAction<AppRoute>('cities/redirectToRoute');
 
-
+export const setError = createAction<string | null>('cities/setError');
