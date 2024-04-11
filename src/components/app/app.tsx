@@ -12,7 +12,7 @@ import Layout from '../layout/layout';
 import { useSelector } from 'react-redux';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { AuthorizationStatus } from '../const/const';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRoute from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../hooks/store';
@@ -37,7 +37,7 @@ function App(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <HistoryRouter history={browserHistory}>
+      <HistoryRoute history={browserHistory}>
         <ScrollToTop />
         <Routes>
           <Route
@@ -78,7 +78,7 @@ function App(): JSX.Element {
             />
           </Route>
         </Routes>
-      </HistoryRouter>
+      </HistoryRoute>
     </HelmetProvider>
   );
 }

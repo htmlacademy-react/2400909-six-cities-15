@@ -24,9 +24,9 @@ const sortOffer = {
 function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>();
 
-  const offers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name === state.currentCity));
+  const offers = useAppSelector((state) => state.offers.offers.filter((offer) => offer.city.name === state.city.currentCity));
   const sortedOffers = useMemo(() => [...offers].sort(sortOffer[activeOfferSort]), [offers, activeOfferSort]);
-  const currentCity = useAppSelector((state) => state.currentCity);
+  const currentCity = useAppSelector((state) => state.city.currentCity);
 
   return (
     <main className="page__main page__main--index">
