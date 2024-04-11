@@ -1,4 +1,4 @@
-import { AppRoute, AuthorizationStatus } from '../../components/const/const';
+import { AppRoute, AuthorizationStatus, MAX_COUNT_COMMENTS } from '../../components/const/const';
 import ReviewComponent from '../../components/review-component';
 import { Navigate, useParams } from 'react-router-dom';
 import { Map } from '../../components/map/map';
@@ -7,7 +7,8 @@ import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
 import { useEffect } from 'react';
 import { fetchCommentsAction, fetchFavoritesOffersAction, fetchNearbyOffersAction, fetchOfferIdAction } from '../../store/api-action';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
-import { formatDate, formatDateTime } from '../../components/const/utils';
+import MemoCommentItem from './comment-item';
+import { Comment } from '../../types/comment';
 
 function OfferPage(): JSX.Element {
   const {id} = useParams<{id: string}>();
@@ -27,6 +28,8 @@ function OfferPage(): JSX.Element {
   const userComments = useAppSelector((state) => state.user.comments);
   const isOfferLoading = useAppSelector((state) => state.loading.isCurrentOfferDataLoading);
   const authorizationStatus = useAppSelector((state) => state.user.authorizationStatus);
+  const sortingComments = [...userComments].sort((a: Comment, b: Comment) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, MAX_COUNT_COMMENTS);
+
 
   if (isOfferLoading) {
     return <LoadingScreen />;
@@ -127,33 +130,10 @@ function OfferPage(): JSX.Element {
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{userComments.length}</span></h2>
               <ul className="reviews__list">
-                {userComments.slice(0, 10).map((userComment) => {
-                  const {comment, date} = userComment;
-                  return (
-                    <li key={userComment.id} className="reviews__item">
-                      <div className="reviews__user user">
-                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                          <img className="reviews__avatar user__avatar" src={host.avatarUrl} width="54" height="54" alt="Reviews avatar" />
-                        </div>
-                        <span className="reviews__user-name">
-                          {host.name}
-                        </span>
-                      </div>
-                      <div className="reviews__info">
-                        <div className="reviews__rating rating">
-                          <div className="reviews__stars rating__stars">
-                            <span style={{width: `${ratingStatus}%`}}></span>
-                            <span className="visually-hidden">{rating}</span>
-                          </div>
-                        </div>
-                        <p className="reviews__text">
-                          {comment}
-                        </p>
-                        <time className="reviews__time" dateTime={formatDateTime(date)}>{formatDate(date)}</time>
-                      </div>
-                    </li>
-                  );
-                })}
+                {sortingComments
+                  .map(
+                    (comment) => <MemoCommentItem comments={comment} key={comment.id}/>
+                  )}
               </ul>
 
               {authorizationStatus === AuthorizationStatus.Auth ? (
