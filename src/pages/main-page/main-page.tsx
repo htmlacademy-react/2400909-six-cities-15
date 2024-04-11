@@ -35,7 +35,7 @@ function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
       <Locations />
 
       <div className="cities">
-        {offers.length === 0 ?
+        {sortedOffers.length === 0 ?
           <MainEmptyPage /> :
         <div className="cities__places-container container">
           <section className="cities__places places">

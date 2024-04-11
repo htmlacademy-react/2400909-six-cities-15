@@ -5,10 +5,13 @@ import { Comment } from '../types/comment';
 import { ExtendedOffer } from '../types/extended-offer';
 import { UserData } from '../types/user-data';
 import { SortType } from '../components/sort/const';
+import { StatusFavorite } from '../types/status-favorite';
 
 export const changeCity = createAction<string>('cities/changeCity');
 
 export const changeSortType = createAction<SortType>('cities/changeSortType');
+
+export const changeOffer = createAction<StatusFavorite>('cities/changeOffer');
 
 export const getOffers = createAction<Offer>('cities/addOffers');
 

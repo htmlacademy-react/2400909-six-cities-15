@@ -22,7 +22,8 @@ import { getOffers,
   redirectToRoute,
   getNearbyOffers,
   setError,
-  setCurrentOfferDataLoadingStatus} from './action';
+  setCurrentOfferDataLoadingStatus,
+  changeOffer} from './action';
 import { store } from '.';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
@@ -88,6 +89,19 @@ export const saveFavoritesOffersAction = createAsyncThunk<void, StatusFavorite, 
   },
 );
 
+export const saveFavoritesExtendedOfferAction = createAsyncThunk<void, StatusFavorite, {
+  dispatch: AppDispatch;
+  state: RootStore;
+  extra: AxiosInstance;
+}>(
+  'user/saveFavoritesExtendedOffer',
+  async ({id, isFavorite}, {dispatch, extra: api}) => {
+    const {data} = await api.post<ExtendedOffer>(`${APIRoute.Favorites}/${id}/${isFavorite}`);
+    dispatch(changeOffer({id: data.id, isFavorite: data.isFavorite}));
+    dispatch(fetchFavoritesOffersAction());
+  },
+);
+
 export const fetchNearbyOffersAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
   state: RootStore;
@@ -111,10 +125,12 @@ export const fetchOfferIdAction = createAsyncThunk<void, string, {
     try{
       const {data} = await api.get<ExtendedOffer>(`${APIRoute.Offers}/${id}`);
       dispatch(getOfferId(data));
-    }catch{
-      dispatch(getOfferId(null));
+    } catch (error) {
+      dispatch(setError('Error when enabling data'));
+      throw error;
+    } finally {
+      dispatch(setCurrentOfferDataLoadingStatus(false));
     }
-    dispatch(setCurrentOfferDataLoadingStatus(false));
   },
 );
 
