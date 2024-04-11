@@ -7,6 +7,7 @@ import Sort from '../../components/sort/sort';
 import { SortType } from '../../components/sort/const';
 import { useAppSelector } from '../../components/hooks/store';
 import { Offer } from '../../types/offer';
+import MainEmptyPage from '../main-empty-page';
 
 export type Props = {
   setSort: (str: SortType) => void ;
@@ -34,6 +35,8 @@ function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
       <Locations />
 
       <div className="cities">
+        {offers.length === 0 ?
+          <MainEmptyPage /> :
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
@@ -67,7 +70,7 @@ function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
               />
             }
           </div>
-        </div>
+        </div>}
       </div>
     </main>
   );
