@@ -10,7 +10,7 @@ import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../services/token';
 
-import { APIRoute, AuthorizationStatus, AppRoute, TIMEOUT_SHOW_ERROR } from '../components/const/const';
+import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../components/const/const';
 
 import { getOffers,
   setOffersDataLoadingStatus,
@@ -19,7 +19,6 @@ import { getOffers,
   getFavoritesOffers,
   getOfferId,
   getUserData,
-  redirectToRoute,
   getNearbyOffers,
   setError,
   setCurrentOfferDataLoadingStatus,
@@ -84,7 +83,8 @@ export const saveFavoritesOffersAction = createAsyncThunk<void, StatusFavorite, 
 }>(
   'user/saveFavoritesOffers',
   async ({id, isFavorite}, {dispatch, extra: api}) => {
-    await api.post<UserComment>(`${APIRoute.Favorites}/${id}/${isFavorite}`);
+    const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${isFavorite}`);
+    dispatch(changeOffer({id: data.id, isFavorite: data.isFavorite}));
     dispatch(fetchFavoritesOffersAction());
   },
 );
@@ -109,7 +109,7 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, string, {
 }>(
   'data/fetchNearbyOffers',
   async(id, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offer []>(`${APIRoute.Offers}/${id}/nearby`);
+    const {data} = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
     dispatch(getNearbyOffers (data));
   },
 );
@@ -141,10 +141,11 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 }>(
   'user/checkAuth',
   async(_arg, {dispatch, extra: api}) => {
-    try{
-      await api.get(APIRoute.Login);
+    try {
+      const {data} = await api.get<UserData>(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    }catch{
+      dispatch(getUserData(data));
+    } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
   },
@@ -157,13 +158,12 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 }>(
   'user/login',
   async ({login: email, password}, {dispatch, extra: api}) => {
-    try{
+    try {
       const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
       dispatch(getUserData(data));
       saveToken(data.token);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(redirectToRoute(AppRoute.Root));
-    }catch{
+    } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
   },

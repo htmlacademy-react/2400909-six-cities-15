@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { setCurrentOfferDataLoadingStatus, setError, setOffersDataLoadingStatus } from "../action";
+import { createSlice } from '@reduxjs/toolkit';
+import { setCurrentOfferDataLoadingStatus, setError, setOffersDataLoadingStatus } from '../action';
 
 
 const loadingInitialState: {
@@ -30,4 +30,4 @@ export const loadingReducer = createSlice({
         state.isCurrentOfferDataLoading = payload;
       });
   },
-})
+});

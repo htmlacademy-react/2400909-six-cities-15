@@ -8,9 +8,9 @@ import { logoutAction } from '../../store/api-action';
 export default function Layout() {
   const {pathname} = useLocation();
   const {rootClassName, linkClassName, shouldRenderUser, shouldRenderFooter} = getLayoutState(pathname as AppRoute);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const countFavorite = useAppSelector((state) => state.favoritesOffers);
-  const userData = useAppSelector((state) => state.userData);
+  const authorizationStatus = useAppSelector((state) => state.user.authorizationStatus);
+  const countFavorite = useAppSelector((state) => state.offers.favoritesOffers);
+  const userData = useAppSelector((state) => state.user.userData);
 
   const dispatch = useAppDispatch();
 

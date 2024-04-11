@@ -19,8 +19,8 @@ import { useAppDispatch } from '../hooks/store';
 import { fetchFavoritesOffersAction } from '../../store/api-action';
 
 function App(): JSX.Element {
-  const authorizationStatus = useSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useSelector((state) => state.isOffersDataLoading);
+  const authorizationStatus = useSelector((state) => state.user.authorizationStatus);
+  const isOffersDataLoading = useSelector((state) => state.loading.isOffersDataLoading);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

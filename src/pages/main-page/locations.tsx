@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
 import { changeCity } from '../../store/action';
 
 export default function Locations(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.currentCity);
+  const currentCity = useAppSelector((state) => state.city.currentCity);
   const dispatch = useAppDispatch();
 
   return (

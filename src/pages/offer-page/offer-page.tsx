@@ -1,4 +1,3 @@
-import { getAuthorizationStatus } from '../../authorizationStatus';
 import { AppRoute, AuthorizationStatus } from '../../components/const/const';
 import ReviewComponent from '../../components/review-component';
 import { Navigate, useParams } from 'react-router-dom';
@@ -23,11 +22,11 @@ function OfferPage(): JSX.Element {
     }
   }, [id, dispatch]);
 
-  const extendedOffer = useAppSelector((state) => state.offer);
-  const nearbyOffer = useAppSelector((state) => state.nearbyOffers);
-  const userComments = useAppSelector((state) => state.comments);
-  const isOfferLoading = useAppSelector((state) => state.isCurrentOfferDataLoading);
-  const authorizationStatus = getAuthorizationStatus();
+  const extendedOffer = useAppSelector((state) => state.offers.offer);
+  const nearbyOffer = useAppSelector((state) => state.offers.nearbyOffers);
+  const userComments = useAppSelector((state) => state.user.comments);
+  const isOfferLoading = useAppSelector((state) => state.loading.isCurrentOfferDataLoading);
+  const authorizationStatus = useAppSelector((state) => state.user.authorizationStatus);
 
   if (isOfferLoading) {
     return <LoadingScreen />;

@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   city: cityReducer.reducer,
   loading: loadingReducer.reducer,
   user: userReducer.reducer,
-})
+});
 
 const api = createAPI();
 

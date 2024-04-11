@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { AuthorizationStatus } from "../../components/const/const";
-import { Comment } from "../../types/comment";
-import { UserData } from "../../types/user-data";
-import { getComments, getUserData, requireAuthorization } from "../action";
+import { createSlice } from '@reduxjs/toolkit';
+import { AuthorizationStatus } from '../../components/const/const';
+import { Comment } from '../../types/comment';
+import { UserData } from '../../types/user-data';
+import { getComments, getUserData, requireAuthorization } from '../action';
 
 const userInitialState: {
   comments: Comment[];

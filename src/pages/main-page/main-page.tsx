@@ -37,40 +37,40 @@ function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
       <div className="cities">
         {sortedOffers.length === 0 ?
           <MainEmptyPage /> :
-        <div className="cities__places-container container">
-          <section className="cities__places places">
-            <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">
-              {sortedOffers.length} place{sortedOffers.length > 1 && 's'} to stay in {currentCity}{' '}
-            </b>
-            <Sort
-              activeOfferSort={activeOfferSort}
-              setSort={setSort}
-            />
-            <div className="cities__places-list places__list tabs__content">
+          <div className="cities__places-container container">
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">
+                {sortedOffers.length} place{sortedOffers.length > 1 && 's'} to stay in {currentCity}{' '}
+              </b>
+              <Sort
+                activeOfferSort={activeOfferSort}
+                setSort={setSort}
+              />
+              <div className="cities__places-list places__list tabs__content">
 
-              {sortedOffers.map((offer) => (
-                <OfferCardComponent
-                  block="cities"
-                  offer={offer}
-                  key={offer.id}
-                  setActiveId={setActiveOfferId}
-                />
-              ))}
+                {sortedOffers.map((offer) => (
+                  <OfferCardComponent
+                    block="cities"
+                    offer={offer}
+                    key={offer.id}
+                    setActiveId={setActiveOfferId}
+                  />
+                ))}
 
-            </div>
-          </section>
-          <div className="cities__right-section">
-            {
-              sortedOffers[0]?.city &&
+              </div>
+            </section>
+            <div className="cities__right-section">
+              {
+                sortedOffers[0]?.city &&
               <Map
                 className={'cities'}
                 offers = {sortedOffers}
                 activeOfferId={activeOfferId}
               />
-            }
-          </div>
-        </div>}
+              }
+            </div>
+          </div>}
       </div>
     </main>
   );
