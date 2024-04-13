@@ -9,11 +9,6 @@ import { useAppSelector } from '../../components/hooks/store';
 import { Offer } from '../../types/offer';
 import MainEmptyPage from '../main-empty-page';
 
-export type Props = {
-  setSort: (str: SortType) => void ;
-  activeOfferSort: SortType;
-}
-
 const sortOffer = {
   [SortType.Popular]: () => 0,
   [SortType.PriceLowToHigh]: ((a: Offer, b: Offer) => a.price - b.price),
@@ -21,11 +16,12 @@ const sortOffer = {
   [SortType.TopRatedFirst]: ((a: Offer, b: Offer) => b.rating - a.rating),
 };
 
-function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
+function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>();
 
   const offers = useAppSelector((state) => state.offers.offers.filter((offer) => offer.city.name === state.city.currentCity));
-  const sortedOffers = useMemo(() => [...offers].sort(sortOffer[activeOfferSort]), [offers, activeOfferSort]);
+  const currentSortType = useAppSelector((state) => state.offers.currentSortType);
+  const sortedOffers = useMemo(() => [...offers].sort(sortOffer[currentSortType]), [offers, currentSortType]);
   const currentCity = useAppSelector((state) => state.city.currentCity);
 
   return (
@@ -43,10 +39,7 @@ function MainPage({setSort, activeOfferSort}: Props): JSX.Element {
               <b className="places__found">
                 {sortedOffers.length} place{sortedOffers.length > 1 && 's'} to stay in {currentCity}{' '}
               </b>
-              <Sort
-                activeOfferSort={activeOfferSort}
-                setSort={setSort}
-              />
+              <Sort />
               <div className="cities__places-list places__list tabs__content">
 
                 {sortedOffers.map((offer) => (

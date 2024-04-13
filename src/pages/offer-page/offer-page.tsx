@@ -137,7 +137,7 @@ function OfferPage(): JSX.Element {
               </ul>
 
               {authorizationStatus === AuthorizationStatus.Auth ? (
-                <ReviewComponent />
+                <ReviewComponent offerId={id} />
               ) : null }
 
             </section>
