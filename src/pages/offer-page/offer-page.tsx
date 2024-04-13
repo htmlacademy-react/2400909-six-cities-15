@@ -5,10 +5,11 @@ import { Map } from '../../components/map/map';
 import OfferCardComponent from '../../components/offer-card-component';
 import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
 import { useEffect } from 'react';
-import { fetchCommentsAction, fetchFavoritesOffersAction, fetchNearbyOffersAction, fetchOfferIdAction } from '../../store/api-action';
+import { fetchCommentsAction, fetchFavoritesOffersAction, fetchNearbyOffersAction, fetchOfferIdAction, saveFavoritesExtendedOfferAction } from '../../store/api-action';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import MemoCommentItem from './comment-item';
 import { Comment } from '../../types/comment';
+import { store } from '../../store';
 
 function OfferPage(): JSX.Element {
   const {id} = useParams<{id: string}>();
@@ -39,8 +40,16 @@ function OfferPage(): JSX.Element {
     return <Navigate to={AppRoute.NotFoundPage} replace/>;
   }
 
-  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults, description} = extendedOffer;
+  const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults, description, isFavorite} = extendedOffer;
   const ratingStatus = Math.round(rating * 20);
+
+  // const handleFavoriteClick = () => {
+  //   store.dispatch(saveFavoritesExtendedOfferAction({
+  //     offerId: id,
+  //     isFavorite: isFavorite,
+  //   }));
+  // };
+
 
   return (
     <main className="page__main page__main--offer">
@@ -68,7 +77,11 @@ function OfferPage(): JSX.Element {
               <h1 className="offer__name">
                 {title}
               </h1>
-              <button className="offer__bookmark-button button" type="button">
+              <button
+                className={`place-card__bookmark-button button${isFavorite ? ' place-card__bookmark-button--active' : ''}`}
+                type="button"
+                // onClick={handleFavoriteClick}
+              >
                 <svg className="offer__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
