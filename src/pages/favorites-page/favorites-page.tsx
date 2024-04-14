@@ -1,10 +1,6 @@
 import FavoritesCities from './favorites-cities';
-import { store } from '../../store';
-import { fetchFavoritesOffersAction } from '../../store/api-action';
 import { useAppSelector } from '../../components/hooks/store';
 import { CityName } from '../../types/city-name';
-
-store.dispatch(fetchFavoritesOffersAction());
 
 function FavoritesPage(): JSX.Element {
   const favorites = useAppSelector((state) => state.offers.favoritesOffers);

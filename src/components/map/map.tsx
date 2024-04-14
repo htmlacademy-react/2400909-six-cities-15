@@ -57,7 +57,7 @@ export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps
 
       return () => {
         map.removeLayer(markerLayer);
-      }
+      };
     }
   }, [activeOfferId, map, offers]);
 

@@ -90,4 +90,7 @@ function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
   );
 }
 
-export default memo(OfferCardComponent);
+const MemoOfferCardComponent = memo(OfferCardComponent);
+MemoOfferCardComponent.displayName = 'OfferCardComponent';
+
+export default OfferCardComponent;

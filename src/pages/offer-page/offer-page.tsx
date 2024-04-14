@@ -5,7 +5,7 @@ import { Map } from '../../components/map/map';
 import OfferCardComponent from '../../components/offer-card-component';
 import { useAppDispatch, useAppSelector } from '../../components/hooks/store';
 import { useEffect } from 'react';
-import { fetchCommentsAction, fetchFavoritesOffersAction, fetchNearbyOffersAction, fetchOfferIdAction, saveFavoritesExtendedOfferAction } from '../../store/api-action';
+import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferIdAction, saveFavoritesOffersAction } from '../../store/api-action';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import MemoCommentItem from './comment-item';
 import { Comment } from '../../types/comment';
@@ -15,15 +15,6 @@ function OfferPage(): JSX.Element {
   const {id} = useParams<{id: string}>();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchOfferIdAction(id));
-      dispatch(fetchCommentsAction(id));
-      dispatch(fetchFavoritesOffersAction());
-      dispatch(fetchNearbyOffersAction(id));
-    }
-  }, [id, dispatch]);
-
   const extendedOffer = useAppSelector((state) => state.offers.offer);
   const nearbyOffer = useAppSelector((state) => state.offers.nearbyOffers);
   const userComments = useAppSelector((state) => state.user.comments);
@@ -31,6 +22,18 @@ function OfferPage(): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.user.authorizationStatus);
   const sortingComments = [...userComments].sort((a: Comment, b: Comment) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, MAX_COUNT_COMMENTS);
 
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferIdAction(id));
+    }
+  }, [id, dispatch, authorizationStatus]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchCommentsAction(id));
+      dispatch(fetchNearbyOffersAction(id));
+    }
+  }, [id, dispatch]);
 
   if (isOfferLoading) {
     return <LoadingScreen />;
@@ -43,12 +46,12 @@ function OfferPage(): JSX.Element {
   const {images, isPremium, title, rating, type, price, bedrooms, goods, host, maxAdults, description, isFavorite} = extendedOffer;
   const ratingStatus = Math.round(rating * 20);
 
-  // const handleFavoriteClick = () => {
-  //   store.dispatch(saveFavoritesExtendedOfferAction({
-  //     offerId: id,
-  //     isFavorite: isFavorite,
-  //   }));
-  // };
+  const handleFavoriteClick = () => {
+    store.dispatch(saveFavoritesOffersAction({
+      id: extendedOffer.id,
+      isFavorite: isFavorite,
+    }));
+  };
 
 
   return (
@@ -78,9 +81,9 @@ function OfferPage(): JSX.Element {
                 {title}
               </h1>
               <button
-                className={`place-card__bookmark-button button${isFavorite ? ' place-card__bookmark-button--active' : ''}`}
+                className={`offer__bookmark-button button${isFavorite ? ' offer__bookmark-button--active' : ''}`}
                 type="button"
-                // onClick={handleFavoriteClick}
+                onClick={handleFavoriteClick}
               >
                 <svg className="offer__bookmark-icon" width="31" height="33">
                   <use xlinkHref="#icon-bookmark"></use>

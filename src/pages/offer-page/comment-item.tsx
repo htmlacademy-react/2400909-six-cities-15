@@ -6,7 +6,7 @@ type TProps = {
   comments: Comment;
 }
 
-const MemoCommentItem = memo(function CommentItem({comments}: TProps): JSX.Element {
+function CommentItem({comments}: TProps): JSX.Element {
   const {id, date, user, comment, rating} = comments;
   const ratingStatus = Math.round(rating * 20);
 
@@ -34,6 +34,7 @@ const MemoCommentItem = memo(function CommentItem({comments}: TProps): JSX.Eleme
       </div>
     </li>
   );
-});
+}
 
+const MemoCommentItem = memo(CommentItem);
 export default MemoCommentItem;

@@ -46,7 +46,7 @@ export const offersReducer = createSlice({
 
         state.nearbyOffers = state.nearbyOffers.map((nearbyOffer) => {
           if (nearbyOffer.id === payload.id) {
-            return {...nearbyOffer, isFavorite: payload.id};
+            return {...nearbyOffer, isFavorite: payload.isFavorite};
           }
           return nearbyOffer;
         });
