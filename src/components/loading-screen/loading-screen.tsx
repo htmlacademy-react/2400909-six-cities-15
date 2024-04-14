@@ -6,4 +6,7 @@ function LoadingScreen(): JSX.Element {
   );
 }
 
-export default memo (LoadingScreen);
+const MemoLoadingScreen = memo(LoadingScreen);
+MemoLoadingScreen.displayName = 'LoadingScreen';
+
+export default MemoLoadingScreen;

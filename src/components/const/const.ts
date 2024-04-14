@@ -35,4 +35,6 @@ export const URL_MARKER_ACTIVE = './img/pin-active.svg';
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 
+export const MAX_COUNT_COMMENTS = 10;
+
 
