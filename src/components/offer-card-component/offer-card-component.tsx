@@ -13,8 +13,13 @@ type Props = {
 }
 
 function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector((state) => state.user.authorizationStatus);
   const navigate = useNavigate();
+
+  const {isPremium, previewImage, price, rating, title, type, isFavorite} = offer;
+  const offerPath = `/offer/${offer.id}`;
+  const ratingStatus = Math.round(rating * 20);
+
   const handleFavoriteClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoute.Login);
@@ -25,10 +30,6 @@ function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
       }));
     }
   };
-
-  const {isPremium, previewImage, price, rating, title, type, isFavorite} = offer;
-  const offerPath = `/offer/${offer.id}`;
-  const ratingStatus = Math.round(rating * 20);
 
   const handleMouseEnter = () => {
     if (setActiveId) {
@@ -89,4 +90,7 @@ function OfferCardComponent({offer, block, setActiveId}: Props): JSX.Element {
   );
 }
 
-export default memo(OfferCardComponent);
+const MemoOfferCardComponent = memo(OfferCardComponent);
+MemoOfferCardComponent.displayName = 'OfferCardComponent';
+
+export default OfferCardComponent;

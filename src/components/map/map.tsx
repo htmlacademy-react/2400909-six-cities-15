@@ -1,6 +1,6 @@
 import { useMap } from '../hooks/use-map';
 import { useEffect, useRef, FC } from 'react';
-import leaflet, { LayerGroup, Map as LeafletMap } from 'leaflet';
+import leaflet, { Map as LeafletMap } from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
 import { Offer } from '../../types/offer';
@@ -29,7 +29,6 @@ export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const {city} = offers[0];
   const map: LeafletMap | null = useMap({location: city.location, containerRef: mapContainerRef});
-  const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());
 
   useEffect(() => {
     if (map) {
@@ -41,6 +40,8 @@ export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps
   }, [city, map]);
 
   useEffect(() => {
+    const markerLayer = leaflet.layerGroup();
+
     if (map) {
       offers.forEach((offer) => {
         leaflet
@@ -50,9 +51,13 @@ export const Map: FC<TMapProps> = ({className, offers, activeOfferId}: TMapProps
           }, {
             icon: offer.id === activeOfferId ? activeMarkerIcon : defaultMarkerIcon,
           })
-          .addTo(markerLayer.current);
+          .addTo(markerLayer);
       });
-      markerLayer.current.addTo(map);
+      markerLayer.addTo(map);
+
+      return () => {
+        map.removeLayer(markerLayer);
+      };
     }
   }, [activeOfferId, map, offers]);
 

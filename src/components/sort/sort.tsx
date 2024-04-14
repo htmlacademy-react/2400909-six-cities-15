@@ -6,7 +6,7 @@ import { changeSortType } from '../../store/action';
 export default function Sort(): JSX.Element {
   const [isOpened, setOpened] = useState(false);
   const dispatch = useAppDispatch();
-  const currentSortType = useAppSelector((state) => state.currentSortType);
+  const currentSortType = useAppSelector((state) => state.offers.currentSortType);
 
 
   return (

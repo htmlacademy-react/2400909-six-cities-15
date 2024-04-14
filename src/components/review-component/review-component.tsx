@@ -1,7 +1,13 @@
-import { FC, Fragment, ReactEventHandler, useState } from 'react';
+import { Fragment, ReactEventHandler, useState } from 'react';
+import { useAppDispatch } from '../hooks/store';
+import { saveCommentAction } from '../../store/api-action';
 
 type TChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 type TFormHandler = ReactEventHandler<HTMLFormElement>;
+
+type ReviewComponentProps = {
+  offerId: string | undefined;
+}
 
 const rating = [
   {value: 5, label: 'perfect'},
@@ -11,16 +17,22 @@ const rating = [
   {value: 1, label: 'terribly'},
 ];
 
-export const ReviewComponent: FC = () => {
+export const ReviewComponent = ({offerId}: ReviewComponentProps) => {
   const [review, setReview] = useState({rating: 0, review: ''});
+  const dispatch = useAppDispatch();
 
   const handleChange: TChangeHandler = (event) => {
     const {name, value} = event.currentTarget;
     setReview({...review, [name]: value});
   };
 
-  const handleFormChange: TFormHandler = (evt) => {
+  const handleFormSubmit: TFormHandler = (evt) => {
     evt.preventDefault();
+    dispatch(saveCommentAction({
+      id: offerId,
+      comment: review.review,
+      rating: Number(review.rating),
+    }));
   };
 
   return (
@@ -28,7 +40,7 @@ export const ReviewComponent: FC = () => {
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={handleFormChange}
+      onSubmit={handleFormSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
